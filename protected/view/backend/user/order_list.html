@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="public/theme/backend/style/vds.css" />
+<link rel="stylesheet" type="text/css" href="public/theme/backend/style/main.css" />
+<script type="text/javascript" src="public/theme/backend/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="public/theme/backend/js/vds.js"></script>
+<script type="text/javascript" src="public/theme/backend/js/list.js"></script>
+</head>
+<body>
+<div class="content">
+  <div class="loc"><h2><i class="icon"></i>订单列表</h2></div>
+  <div class="box"> <{include file='backend/user/bar.html'}>
+    <form method="post" action="<{url m=$MOD c='user' a='view' step='order' id=$user.user_id}>">
+      <div class="stools mt5">
+        <select name="order_status" class="slt">
+          <option value="" selected="selected">订单状态</option>
+          <option disabled="disabled">-------------------</option>
+          <{foreach $status_map as $k => $v}>
+          <option value="<{$k}>"><{$v}></option>
+          <{/foreach}>
+        </select>
+        <select name="sort_id" class="slt">
+          <option value="0">按时间倒序</option>
+          <option value="1">按时间顺序</option>
+          <option value="2">按金额从高到低</option>
+          <option value="3">按金额从低到高</option>
+        </select>
+        <input class="w300 txt" name="order_id" type="text" placeholder="输入订单号" />
+        <button type="submit" class="sbtn btn" onclick="searchRes(1)">搜 索</button>
+      </div>
+    </form>
+    <{if !empty($order_list)}>
+    <div class="module mt5">
+      <table class="datalist">
+        <tr>
+          <th width="150">订单号</th>
+          <th width="110">下单日期</th>
+          <th width="120">金额 (元)</th>
+          <th width="120">订单状态</th>
+          <th class="ta-l">收件人信息</th>
+        </tr>
+        <{foreach $order_list as $v}>
+        <tr>
+          <td><a class="blue" href="<{url m=$MOD c='order' a='view' id=$v.order_id}>"><{$v.order_id}></a></td>
+          <td><{date('Y-m-d H:i:s', $v.created_date)}></td>
+          <td><{$v.order_amount}></td>
+          <td><{$v.order_status}></td>
+          <td>
+            <div class="ta-l">
+              <p><{$v.consignee.name}><font class="ml5 c666">(联系电话：<{if $v.consignee.mobile_no != ''}><{$v.consignee.mobile_no}><{else}><{$v.consignee.tel_no}><{/if}></font></p>
+              <p class="mt5"><{$v.consignee.province}> <{$v.consignee.city}> <{$v.consignee.borough}> <{$v.consignee.address}></p>
+              <{if $v.consignee.zip != ''}>
+              <p class="mt5"><{$v.consignee.zip}></p>
+              <{/if}>
+            </div>
+          </td>
+        </tr>
+        <{/foreach}>
+      </table>
+    </div>
+    <{if !empty($order_paging)}>
+    <div class="bom mt5"><{html_paging paging=$order_paging class='paging' m=$MOD c='user' a='view' step='order' id=$user.user_id}></div>
+    <{/if}>
+    <{else}>
+    <div class='nors mt5'>未找到匹配的数据记录...</div>
+    <{/if}>
+  </div>
+</div>
+</body>
+</html>

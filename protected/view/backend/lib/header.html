@@ -1,0 +1,132 @@
+<script type="text/javascript">
+function closeUser(){
+  masker('hide');
+  $('#pop-user').hide();
+  $('#pwd').hide();
+  $('#pop-user div.ta-c button').eq(0).hide();
+  $('#pop-user div.ta-c button').eq(1).show();
+}
+function resetPwd(){
+  $('#pwd').slideDown();
+  $('#pop-user div.ta-c button').eq(0).show();
+  $('#pop-user div.ta-c button').eq(1).hide();
+}
+
+function popAc(id){
+  masker();
+  $('#'+id).vdsMidst({wrapper:$(window), gotop:-100});
+  $('#'+id).show();
+}
+function closeAc(id){
+  masker('hide');
+  $('#'+id).hide();
+}
+function clearCache(){
+  $.ajax({
+    type: "post",
+    dataType: "text",
+    url: "<{url m=$MOD c='main' a='cleanup'}>",
+    data: {'clean':$('#clean-select input:checked').val()},
+    beforeSend: function(){closeAc('pop-clear');loadingBar();},
+    success: function(status){
+      loadingBar('hide');
+      if(status == '1') $('body').vdsAlert({msg:"清理完成", time:1}); else $('body').vdsAlert({msg:"清理失败", time:1});
+    },
+    error: function(){ 
+      loadingBar('hide');
+      $('body').vdsAlert({msg:"处理请求时发生错误"});
+    }
+  });
+}
+
+function submitPwd(){
+  $('#old_password').vdsChecker({required:true});
+  $('#new_password').vdsChecker({required:true, password:true}, {password:'密码不符合格式要求'}, {password: /^[\\~!@#$%^&*()-_=+|{}\[\],.?\/:;\'\"\d\w]{6,31}$/.test($('#password').val())});
+  $('#repassword').vdsChecker({equal:$('#new_password').val()}, {equal:'两次密码不一致'});
+  $('#pwd form').vdsSubmit();
+}
+</script>
+
+<div class="header" id="header">
+  <div class="logo fl"><a href="<{url m=$MOD c='main' a='panel'}>">Verydows Panel</a></div>
+  <div class="top-links fr cut">
+    <a title="前端首页" class="icon front" target="_blank" href="<{url c='main' a='index'}>">前端首页</a>
+    <a title="帮助文档" class="icon help" href="http://www.verydows.com/manual/starting.html" target="_blank">帮助文档</a>
+    <a title="设置" class="icon sets" href="<{url m=$MOD c='setting' a='index'}>">设置</a>
+    <a title="用户信息" class="icon user" onClick="popAc('pop-user')">用户信息</a>
+    <a title="清理缓存和垃圾" class="icon wipe" onClick="popAc('pop-clear')">清理缓存和垃圾</a>
+    <a title="退出登录" class="icon logout" href="<{url m=$MOD c='main' a='logout'}>">退出登录</a>
+  </div>
+</div>
+<div class="module hdline"></div>
+<div class="acpop hide" id="pop-user"> <a class="close" onClick="closeUser()">×</a>
+  <h2 class="c999">登录用户: <font class="f14 c666 ml5"><{$admin.username}></font></h2>
+  <div class="module poinfo cut">
+    <dl>
+      <dt>姓名</dt>
+      <dd><{if !empty($admin.name)}><{$admin.name}><{else}><font class="c999">未设置</font><{/if}></dd>
+    </dl>
+    <dl>
+      <dt>邮箱</dt>
+      <dd><{$admin.email}></dd>
+    </dl>
+    <dl>
+      <dt>上次登录时间</dt>
+      <dd><{date('Y-m-d H:i:s', $admin.last_date)}></dd>
+    </dl>
+    <dl>
+      <dt>上次登录IP</dt>
+      <dd><{$admin.last_ip}></dd>
+    </dl>
+    <div class="bl"></div>
+    <div class="pwd mt15 hide" id="pwd">
+      <form method="post" action="<{url m=$MOD c='main' a='reset_password'}>">
+        <dl>
+          <dt>原密码</dt>
+          <dd><input title="旧密码" class="txt" name="old_password" id="old_password" type="password" data-warnpos="fixed" /></dd>
+        </dl>
+        <dl>
+          <dt>新密码</dt>
+          <dd><input title="新密码" class="txt" name="new_password" id="new_password" type="password" data-warnpos="fixed" /></dd>
+        </dl>
+        <dl>
+          <dt>确认新密码</dt>
+          <dd><input title="确认新密码" class="txt" name="repassword" id="repassword" type="password" data-warnpos="fixed" /></dd>
+        </dl>
+      </form>
+    </div>
+  </div>
+  <div class="ta-c">
+    <button type="button" class="ubtn sm btn hide" onClick="submitPwd()">确定修改</button>
+    <button type="button"class="fbtn sm btn" onClick="resetPwd()">重设密码</button>
+    <span class="sep20"></span>
+    <button type="button" class="fbtn sm btn" onClick="closeUser()">关闭</button>
+  </div>
+</div>
+<div class="acpop hide" id="pop-clear"> <a class="close" onClick="closeAc('pop-clear')">×</a>
+  <h2 class="c999">清理缓存和垃圾</h2>
+  <div class="poinfo cut">
+    <ul id="clean-select">
+      <li>
+        <label><input name="clean" type="radio" value="0" checked="checked" /><font>一键全部清理</font></label>
+      </li>
+      <li>
+        <label><input name="clean" type="radio" value="1" /><font>清理数据缓存</font></label>
+      </li>
+      <li>
+        <label><input name="clean" type="radio" value="2" /><font>清理模板缓存</font></label>
+      </li>
+      <li>
+        <label><input name="clean" type="radio" value="3" /><font>清理静态缓存</font></label>
+      </li>
+      <li>
+        <label><input name="clean" type="radio" value="4" /><font>清理数据冗余</font></label>
+      </li>
+    </ul>
+  </div>
+  <div class="ta-c">
+    <button type="button" class="ubtn sm btn" onClick="clearCache()">确定清理</button>
+    <span class="sep20"></span>
+    <button type="button" class="fbtn sm btn" onClick="closeAc('pop-clear')">取消</button>
+  </div>
+</div>

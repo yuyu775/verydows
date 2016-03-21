@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="public/theme/backend/style/vds.css" />
+<link rel="stylesheet" type="text/css" href="public/theme/backend/style/main.css" />
+<script type="text/javascript" src="public/theme/backend/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="public/theme/backend/js/vds.js"></script>
+<script type="text/javascript" src="public/theme/backend/js/list.js"></script>
+</head>
+<body>
+<div class="content">
+  <div class="loc"><h2><i class="icon"></i>用户账户日志</h2></div>
+  <div class="box">
+    <div class="ta-c bw-row pad10 c888 cut">
+      <h3 class="f14 c666"><{$user.username}><font class="ml10 c888">[<{$user.email}>]</font></h3>
+      <p class="mt10">
+        账户余额：<b class="c666"><{$user.account.balance}></b> <span class="sep20"></span>
+	账户积分：<b class="c666"><{$user.account.points}></b> <span class="sep20"></span>
+	账户经验：<b class="c666"><{$user.account.exp}></b>
+      </p>
+      <p class="mt10">
+        <a class="blue" href="<{url m=$MOD c='user' a='index'}>">返回用户列表</a><span class="sep20 c999">|</span>
+	<a class="blue" href="<{url m=$MOD c='user' a='view' id=$user.user_id}>">返回用户信息</a><span class="sep20 c999">|</span>
+	<a class="blue" href="<{url m=$MOD c='user_account_log' a='index'}>">返回全部日志列表</a>
+      </p>
+    </div>
+    <{if !empty($log_list)}>
+    <div class="module mt5">
+      <table class="datalist">
+        <tr>
+          <th width="50">编号</th>
+          <th width="135">余额变动</th>
+          <th width="135">积分变动</th>
+          <th width="135">经验变动</th>
+          <th width="150">日期</th>
+          <th class="ta-l">原因 / 备注</th>
+          <th width="150">操作人</th>
+        </tr>
+        <{foreach $log_list as $v}>
+        <tr>
+          <td><{$v.id}></td>
+          <td><{if $v.balance > 0}><font class="red">+<{$v.balance}></font><{elseif $v.balance < 0}><font class="green"><{$v.balance}></font><{else}><font class="c888"><{$v.balance}></font><{/if}></td>
+          <td><{if $v.points > 0}><font class="red">+<{$v.points}></font><{elseif $v.points < 0}><font class="green"><{$v.points}></font><{else}><font class="c888"><{$v.points}></font><{/if}></td>
+          <td><{if $v.exp > 0}><font class="red">+<{$v.exp}></font><{elseif $v.exp < 0}><font class="green"><{$v.exp}></font><{else}><font class="c888"><{$v.exp}></font><{/if}></td>
+          <td class="c666"><{date('Y-m-d h:i:s', $v.dateline)}></td>
+          <td class="ta-l"><p class="pad5 c666"><{$v.cause}></p></td>
+          <td><{if !empty($v.admin_id)}><font class="c999">管理员:</font> <{$admin_list[$v.admin_id]['username']}><{else}><font class="c999">系统自动</font><{/if}></td>
+        </tr>
+        <{/foreach}>
+      </table>
+    </div>
+    <{if !empty($log_paging)}>
+    <div class="bom mt5"><{html_paging paging=$log_paging class='paging' m=$MOD c='user' a='view' step='account' id=$user.user_id}></div>
+    <{/if}>
+    <{else}>
+    <div class='nors mt5'>该用户暂无任何账户记录...</div>
+    <{/if}>
+  </div>
+</div>
+</body>
+</html>

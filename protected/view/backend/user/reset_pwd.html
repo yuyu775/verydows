@@ -1,0 +1,40 @@
+<script type="text/javascript">
+function popResetPwd(){
+  masker();
+  $('#pop-pwd').vdsMidst({wrapper:$(window)}).show();
+}
+function closeResetPwd(){
+  var e = $('#pop-pwd');
+  masker('hide');
+  e.hide().find('span.vds-warning').remove();
+  e.find('form')[0].reset();
+}
+function submitResetPwd(){
+  var e = $('#pop-pwd'), pwd = e.find('input[name="password"]');
+  pwd.vdsChecker({required:true, password:true}, {password:'密码不符合格式要求'}, {password: /^[\\~!@#$%^&*()-_=+|{}\[\],.?\/:;\'\"\d\w]{6,31}$/.test(pwd.val())});
+  e.find('input[name="repassword"]').vdsChecker({equal:pwd.val()}, {equal:'两次密码不一致'});
+  e.find('form').vdsSubmit();
+}
+</script>
+<div class="poper cut" id="pop-pwd"> <a class="close" onclick="closeResetPwd()"></a>
+  <div class="poper-hd"><h3 class="f14 ta-c">重设用户密码</h3></div>
+  <div class="pad10 cut">
+    <form method="post" action="<{url m=$MOD c='user' a='reset_password' id=$rs.user_id}>">
+      <table class="dataform">
+        <tr>
+          <th width="90">新密码</th>
+          <td><input title="新密码" class="w200 txt" name="password" type="password" /><p class="caaa mt10">可以包含字母、数字以及特殊符号，长度为6-32个字符</p></td>
+        </tr>
+        <tr>
+          <th>确认新密码</th>
+          <td><input class="w200 txt" name="repassword" type="password" /><p class="caaa mt10">再次输入新密码</p></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+  <div class="poper-bom ta-c">
+    <button type="button" class="ubtn btn" onclick="submitResetPwd()">提交</button>
+    <span class="sep40"></span>
+    <button type="reset" class="fbtn btn" onclick="closeResetPwd()">取消</button>
+  </div>
+</div>

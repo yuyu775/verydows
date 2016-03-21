@@ -1,0 +1,24 @@
+/* 添加商品相册 */
+.mrimgtr {margin:0 5px;padding:15px 0;height:auto;border-bottom:1px solid #eee;overflow:hidden;}
+/* 相册图片列表 */
+.imgli dl {float:left;margin:0 5px;padding:5px;width:100px;height:auto;border:1px solid #eee;}
+.imgli dl dd {text-align:center;}
+.imgli dl dt input.txt {padding:4px 0 4px 3px;}
+.imgli dl dd button {font-weight:normal}
+/* 添加属性规格 */
+.attrli {width:400px;height:auto;line-height:28px;}
+.attrli dl {margin:5px 0;padding:5px;border:1px solid #E8F3FF;}
+.attrli dl dt {float:left;width:105px;text-align:right;color:#666;}
+.attrli dl dd {margin-left:120px;}
+/* 添加商品选择项 */
+.optlsdl {width:330px;height:auto;padding:5px 15px 30px 15px;float:left;overflow:hidden}
+.optlsdl dt {text-align:center;padding-bottom:5px;}
+.optlsdl dt font {font-weight:bold;}
+.optlsdl dt span.sep {margin:0 40px;}
+.optlsdl dt button {font-weight:normal;}
+.optlsdl dd {margin-top:10px;text-align:center}
+.optlsdl dd label {color:#999;}
+.optlsdl dd input.txt {padding:4px 0 4px 5px;}
+/* 关联商品 */
+.selmulwp {width:950px;}
+.selmulac ul {padding:80px 20px 0 20px}

@@ -1,0 +1,44 @@
+<div class="helpper cut">
+  <div class="guarantee radius4 cut">
+    <dl>
+      <dt><i class="g-1 icon"></i></dt>
+      <dt class="mt5">放心购物</dt>
+      <dd class="mt5">正品保障，付款安全</dd>
+    </dl>
+    <span class="sep"></span>
+    <dl>
+      <dt><i class="g-2 icon"></i></dt>
+      <dt class="mt5">闪电发货</dt>
+      <dd class="mt5">当日处理，极速配货</dd>
+    </dl>
+    <span class="sep"></span>
+    <dl>
+      <dt><i class="g-3 icon"></i></dt>
+      <dt class="mt5">退换承诺</dt>
+      <dd class="mt5">7日以内，尊享退换</dd>
+    </dl>
+    <span class="sep"></span>
+    <dl>
+      <dt><i class="g-4 icon"></i></dt>
+      <dt class="mt5">售后无忧</dt>
+      <dd class="mt5">贴心服务，快速响应</dd>
+    </dl>
+    <span class="sep"></span>
+    <dl>
+      <dt><i class="g-5 icon"></i></dt>
+      <dt class="mt5">畅想低价</dt>
+      <dd class="mt5">每日促销，折扣不停</dd>
+    </dl>
+  </div>
+  <div class="cl"></div>
+  <div class="helpli cut">
+    <{foreach $helper_list as $v}>
+    <dl>
+      <dt><{$v.cate_name}></dt>
+      <{foreach $v.children as $vv}>
+      <dd><a title="<{$vv.title}>" href="<{$vv.link}>"><{$vv.title}></a></dd>
+      <{/foreach}>
+    </dl>
+    <{/foreach}>
+  </div>
+</div>

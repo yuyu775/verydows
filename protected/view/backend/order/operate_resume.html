@@ -1,0 +1,25 @@
+<script type="text/javascript">
+function submitResumeForm(){
+  var form = $('#pop-resume form');
+  form.find('textarea[name="cause"]').vdsChecker({required:true, maxlength:240});
+  form.vdsSubmit();
+}
+</script>
+<div class="poper cut" id="pop-resume"> <a class="close" onclick="closeOperate('pop-resume')"></a>
+  <h3 class="th f14 ta-c">恢复交易</h3>
+  <div class="pad10 cut">
+    <form method="post" action="<{url m=$MOD c='order' a='operate' step='resume' id=$order.order_id}>">
+      <table class="dataform">
+        <tr>
+          <th width="80">恢复原因</th>
+          <td><textarea title="恢复原因" class="txtarea" name="cause" cols="80" rows="4"></textarea></td>
+        </tr>
+      </table>
+      <div class="ta-c mt5 pad10">
+        <button type="button" class="ubtn sm btn" onclick="submitResumeForm()">确定恢复</button>
+        <span class="sep40"></span>
+        <button type="button" class="fbtn sm btn" onclick="closeOperate('pop-resume')">取消</button>
+      </div>
+    </form>
+  </div>
+</div>

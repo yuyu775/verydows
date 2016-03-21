@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="public/theme/backend/style/vds.css" />
+<link rel="stylesheet" type="text/css" href="public/theme/backend/style/main.css" />
+<script type="text/javascript" src="public/theme/backend/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="public/theme/backend/js/vds.js"></script>
+<script type="text/javascript" src="public/theme/backend/js/juicer.js"></script>
+<script type="text/javascript" src="public/theme/backend/js/list.js"></script>
+<script type="text/javascript">
+$(function(){searchRes(1);});
+
+function searchRes(page_id){
+  var order_status = $('#order_status').val(),
+      payment_status = $('#payment_status').val(),
+      shipping_status = $('#shipping_status').val(),
+      order_id = $('#order_id').val(),
+      sort_id = $('#sort_id').val();
+	  
+  $.ajax({
+    type: "post",
+    dataType: "json",
+    url: "<{url m=$MOD c='order' a='index' step='search'}>",
+    data: {'order_status':order_status, 'payment_status':payment_status, 'shipping_status':shipping_status, 'order_id':order_id, 'sort_id':sort_id, 'page':page_id},
+    beforeSend: function(){$('#loading').removeClass('hide');},
+    success: function(data){
+      $('#rows').empty();$('#loading').addClass('hide');
+      if(data.status == 1) {
+        juicer.register('format_date', function(v){return formatTimestamp(v, 'y-m-d<br />h:i:s');});
+        $('#rows').append(juicer($('#row-tpl').html(), data));
+        $('#rows tr').vdsRowHover();
+        $('#rows tr:even').addClass('even');
+        if(data.paging != null) $('#rows').append(juicer($('#paging-tpl').html(), data));
+      } else {
+        $('#rows').append("<div class='nors mt5'>未找到相关数据记录...</div>");	
+      }
+    },
+    error: function(){ 
+      $('#loading').addClass('hide');
+      $('body').vdsAlert({msg:"处理请求时发生错误"});
+    }
+  });
+}
+
+function pageturn(page_id){searchRes(page_id);}
+</script>
+</head>
+<body>
+<div class="content">
+  <div class="loc"><h2><i class="icon"></i>订单列表</h2></div>
+  <div class="box">
+    <div class="doacts">
+      <a class="ae btn" onclick="doslvent('<{url m=$MOD c='order' a='view'}>')"><i class="view"></i><font>查看详细</font></a>
+      <a class="ae btn" onclick="doslvent('<{url m=$MOD c='order' a='delete'}>')"><i class="remove"></i><font>删除</font></a>
+    </div>
+    <div class="stools mt5">
+      <select id="order_status" class="slt">
+        <option value="" selected="selected">订单状态</option>
+        <option disabled="disabled">-------------------</option>
+        <{foreach $status_map as $k => $v}>
+        <option value="<{$k}>"><{$v}></option>
+        <{/foreach}>
+      </select>
+      <select id="sort_id" class="slt">
+        <option value="0">按时间倒序</option>
+        <option value="1">按时间升序</option>
+        <option value="2">按金额倒序</option>
+        <option value="3">按金额升序</option>
+      </select>
+      <input type="text" class="w300 txt" id="order_id" placeholder="输入订单号" />
+      <button type="button" class="sbtn btn" onclick="searchRes(1)">搜 索</button>
+    </div>
+    <div class="module mt5" id="rows"></div>
+    <script type="text/template" id="row-tpl">
+      <form method="post" id="mulentform">
+      <table class="datalist">
+        <tr>
+          <th colspan="2">订单号</th>
+          <th width="100">下单日期</th>
+          <th width="130">用户</th>
+          <th width="120">金额 (元)</th>
+          <th width="120">订单状态</th>
+          <th class="ta-l">收件人信息</th>
+        </tr>
+        {@each list as v}
+        <tr>
+          <td width="20"><input name="id[]" type="checkbox" value="${v.order_id}" /></td>
+          <td width="150"><a class="blue" href="index.php?m=<{$MOD}>&c=order&a=view&id=${v.order_id}">${v.order_id}</a></td>
+          <td>$${v.created_date|format_date}</td>
+          <td><a class="blue" href="index.php?m=<{$MOD}>&c=user&a=view&id=${v.user_id}">${v.username}</a></td>
+          <td>${v.order_amount}</td>
+          <td>${v.order_status}</td>
+          <td>
+            <div class="ta-l">
+              <p>${v.consignee.name}<font class="ml5 c666">(联系电话：{@if v.consignee.mobileno !=''}${v.consignee.mobileno}{@else}${v.consignee.telno}{@/if})</font></p>
+              <p class="mt5">${v.consignee.province} ${v.consignee.city} ${v.consignee.borough} ${v.consignee.address}</p>
+              {@if v.consignee.zip !=''}<p class="mt5">${v.consignee.zip}</p>{@/if}
+            </div>
+          </td>
+        </tr>
+        {@/each}
+      </table>
+      </form>
+    </script>
+    <{include file='backend/lib/paging.html'}>
+    <div class="loading x-auto hide" id="loading"></div>
+  </div>
+</div>
+</body>
+</html>

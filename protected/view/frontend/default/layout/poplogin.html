@@ -1,0 +1,70 @@
+<script type="text/javascript" src="<{$GLOBALS['cfg']['http_host']}>/public/script/md5.js"></script>
+<script type="text/javascript">
+function asyncLogin(){
+  var login = $('#vds-poplogin');
+  login.css({ 
+    left: ($(window).width() - login.width()) / 2,
+    top: ($(window).height() - login.height()) /2,
+  }).find('span.vds-warning').remove();
+  login.find('p.red').addClass('hide');
+  masker('show');
+  login.show().find('.close').on('click', function(){masker('hide'); login.hide();});
+  //登录请求
+  login.find('.go').on('click', function(){
+    var username = login.find('input[name="username"]'), password = login.find('input[name="password"]'), captcha = login.find('input[name="captcha"]');
+    username.vdsChecker({required:true});
+    password.vdsChecker({required:true});
+    $(this).text(function(i, t){
+      $(this).text('正在登陆...');
+      if(login.vdsSubmit() == true){
+        vdsSetCipher('password', '<{$salt}>');
+        var dataset = {'username':username.val(), 'password':password.val(), 'captcha':captcha.val(), 'stay':login.find('input[name="stay"]').val()};
+        $.post("<{url c='user' a='login' step='submit' async='1'}>", dataset, function(rs){
+          password.val('');
+          captcha.val('');
+          $('#poplogin-captcha').attr('src', '<{url c='image' a='captcha'}>&'+Math.random());
+          switch(rs){
+            case '-1':login.find('p.red').text('用户名或密码不正确!').removeClass('hide'); login.find('.go').text(t); break;
+            case '0': login.find('p.red').text('验证码不正确!').removeClass('hide'); login.find('.go').text(t); break;
+            case '1': login.hide(); masker('hide'); break;
+          }
+        });
+      }else{
+        $(this).text(t);
+      }
+    });
+  });
+}
+</script>
+<div class="poplogin" id="vds-poplogin">
+  <h2>您尚未登录</h2>
+  <p class="f14 red mt20 aln-c hide"></p>
+  <form>
+    <div class="pbody">
+      <dl class="username">
+        <dt><i class="icon"></i></dt>
+        <dd><input title="用户名" name="username" type="text" placeholder="请输入用户名" data-warnpos="fixed" /></dd>
+      </dl>
+      <dl class="pwd mt20">
+        <dt><i class="icon"></i></dt>
+        <dd><input title="密码" name="password" type="password" id="password" placeholder="请输入密码" data-warnpos="fixed" /></dd>
+      </dl>
+      <{if $captcha_enable == 1}>
+      <div class="captcha module mt20 cut">
+        <div class="module cut">
+          <dl class="fl cut"><dd><input name="captcha" type="text" placeholder="请输入验证码" /></dd></dl>
+          <div class="fr"><a onclick="$('#poplogin-captcha').attr('src', '<{url c='image' a='captcha'}>&'+Math.random())">看不清换一张</a></div>
+        </div>
+        <div class="mt10"><img id="poplogin-captcha" src="<{url c='image' a='captcha'}>" /></div>
+      </div>
+      <{/if}>
+      <div class="ck module mt20 cut">
+        <div class="fl"><label><input name="stay" type="checkbox" value="1" />一周内自动登录</label></div>
+        <div class="fr"><a href="<{url c='user' a='retrieve_pwd'}>">忘记密码？</a></div>
+      </div>
+      <div class="module mt20"><button type="button" class="go radius4">登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;陆</button></div>
+      <div class="c999 ml10 mt20">您还没有账号？ 立即<a href="<{url c='user' a='register'}>">免费注册</a></div>
+      <a class="close"><i class="icon"></i></a>
+    </div>
+  </form>
+</div>

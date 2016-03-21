@@ -1,0 +1,19 @@
+<tr>
+  <th>配置参数</th>
+  <td><input type="hidden" name="pcode" value="alipay" />
+    <table class="dataform">
+      <tr>
+        <th width="110">支付宝账号</th>
+        <td><input title="支付宝账号" class="w200 txt" name="params[seller_email]" id="seller_email" type="text" value="<{$rs.params.seller_email}>" /></td>
+      </tr>
+      <tr>
+        <th>合作者身份(PID)</th>
+        <td><input title="合作者身份(PID)" class="w200 txt" name="params[partner]" id="partner" type="text" value="<{$rs.params.partner}>" /></td>
+      </tr>
+      <tr>
+        <th>安全检验码 (key)</th>
+        <td><input title="安全检验码(key)" class="w200 txt" name="params[key]" id="key" type="text" value="<{$rs.params.key}>" /></td>
+      </tr>
+    </table>
+  </td>
+</tr>

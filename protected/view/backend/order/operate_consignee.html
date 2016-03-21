@@ -1,0 +1,57 @@
+<script type="text/javascript">
+function submitConsigneeForm(){
+  var form = $('#pop-consignee form'), mobile_no = form.find('input[name="mobile_no"]'), tel_no = form.find('input[name="tel_no"]');
+  form.find('input[name="name"]').vdsChecker({required:true, maxlength:60});
+  form.find('input[name="address"]').vdsChecker({required:true, maxlength:240});
+  form.find('input[name="zip"]').vdsChecker({required:true, nonegint:true, maxlength:6});
+  mobile_no.vdsChecker({mobile:true}, {mobile:'手机号码格式不正确'}, {mobile: /^$|^1[34578]\d{9}$/.test(mobile_no.val())});
+  tel_no.vdsChecker({alternative:true}, {alternative:'手机或固定电话至少填写一项'}, {alternative: mobile_no.val() != '' || tel_no.val() != ''});
+  form.find('textarea[name="cause"]').vdsChecker({required:true, maxlength:240});
+  form.vdsSubmit();
+}
+</script>
+<div class="poper cut" id="pop-consignee"> <a class="close" onclick="closeOperate('pop-consignee')"></a>
+  <h3 class="th f14 ta-c">修改收件人信息</h3>
+  <div class="pad10 cut">
+    <form method="post" action="<{url m=$MOD c='order' a='operate' step='consignee' id=$order.order_id}>">
+      <table class="dataform">
+        <tr>
+          <th width="100">收件人</th>
+          <td><input title="收件人" name="name" type="text" class="w200 txt" value="<{$order.consignee.name}>" /></td>
+        </tr>
+        <tr>
+          <th>所在地区</th>
+          <td><input title="省份" name="province" type="text" class="w100 txt" value="<{$order.consignee.province}>" placeholder="省份" />
+            <input title="城市" name="city" type="text" class="w100 txt" value="<{$order.consignee.city}>" placeholder="城市" />
+            <input title="区/县" name="borough" type="text" class="w100 txt" value="<{$order.consignee.borough}>" placeholder="区/县" />
+          </td>
+        </tr>
+        <tr>
+          <th>详细地址</th>
+          <td><input title="详细地址" name="address" type="text" class="w400 txt" value="<{$order.consignee.address}>" /></td>
+        </tr>
+        <tr>
+          <th>邮编</th>
+          <td><input name="zip" type="text" class="w100 txt" value="<{$order.consignee.zip}>" /></td>
+        </tr>
+        <tr>
+          <th>手机号码</th>
+          <td><input name="mobile_no" type="text" class="w200 txt" placeholder="手机或固定电话至少填写一项" value="<{$order.consignee.mobile_no}>" /></td>
+        </tr>
+        <tr>
+          <th>固定电话</th>
+          <td><input name="tel_no" type="text" class="w200 txt" placeholder="格式：区号-电话号-分机号" value="<{$order.consignee.tel_no}>" /></td>
+        </tr>
+        <tr>
+          <th>修改原因</th>
+          <td><textarea title="修改原因" class="txtarea" name="cause" cols="80" rows="4"></textarea></td>
+        </tr>
+      </table>
+      <div class="ta-c mt5 pad10">
+        <button type="button" class="ubtn sm btn" onclick="submitConsigneeForm()">确定</button>
+        <span class="sep40"></span>
+        <button type="reset" class="fbtn sm btn" onclick="closeOperate('pop-consignee')">取消</button>
+      </div>
+    </form>
+  </div>
+</div>

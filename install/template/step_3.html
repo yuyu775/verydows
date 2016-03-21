@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>第3步 - 安装 Verydows</title>
+<link rel="stylesheet" type="text/css" href="template/style.css" />
+<style type="text/css">
+.infotable {text-align:left}
+.infotable h2 {text-align:center;font-size:14px;color:#006666;}
+.infotable table {border-collapse:collapse}
+.infotable table th, .infotable table td {padding:8px;border:1px solid #e5e5e5;}
+.infotable table th {color:#666;}
+.infotable table td {color:#555;}
+font.green {font-size:14px;}
+input.w240 {width:240px;}
+</style>
+<script type="text/javascript" src="../public/theme/backend/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="../public/theme/backend/js/vds.js"></script>
+<script type="text/javascript">
+function submitForm(){
+  $('#db_host').vdsChecker({required:true});
+  $('#db_user').vdsChecker({required:true});
+  $('#db_name').vdsChecker({required:true});
+  $('#db_table_pre').vdsChecker({format:true}, {format:'数据库表前缀不能包含特殊字符'},  {format:/^[A-Za-z0-9_-]*$/.test($('#db_table_pre').val())});
+  $('#admin_username').vdsChecker({required:true, format:true}, {format:'用户名不符合格式要求'}, {format: /^[a-zA-Z][_a-zA-Z0-9]{4,15}$/.test($('#admin_username').val())});
+  $('#admin_password').vdsChecker({required:true, format:true},{format:'密码不符合格式要求'}, {format: /^[\\~!@#$%^&*()-_=+|{}\[\],.?\/:;\'\"\d\w]{6,31}$/.test($('#admin_password').val())});
+  $('#admin_repassword').vdsChecker({equal:$('#admin_password').val()}, {equal:'管理员两次密码不一致'});
+  $('#admin_email').vdsChecker({required:true, email:true, maxlength:60});
+  $('form').vdsSubmit();
+}
+</script>
+</head>
+<body>
+<!-- header start -->
+<?php include('template'.DS.'header.html') ?>
+<!-- header end -->
+<!-- container start -->
+<div class="container mt20">
+  <?php include('template'.DS.'progressbar.html') ?>
+  <form method="post" action="index.php?step=4" >
+    <div class="checx_envir mt40" style="padding:10px 15px 20px 15px;line-height:180%;border:1px solid #d5d5d5;-moz-border-radius:4px;-webkit-border-radius:4px;border-radius:4px;">
+      <div class="infotable mt10">
+        <div class="module">
+          <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr><th colspan="2"><h2>设置数据库</h2></th></tr>
+            <tr>
+              <th width="150" align="right">数据库主机 :</th>
+              <td><input title="数据库主机" name="db_host" type="text" value="localhost" id="db_host" class="w240 txt" /></td>
+            </tr>
+            <tr>
+              <th width="150" align="right">数据库端口 :</th>
+              <td><input title="数据库端口" name="db_port" type="text" value="3306" id="db_port" class="w240 txt" /></td>
+            </tr>
+            <tr>
+              <th align="right">数据库用户 :</th>
+              <td><input title="数据库用户" name="db_user" type="text" value="root" id="db_user" class="w240 txt" /></td>
+            </tr>
+            <tr>
+              <th align="right">数据库密码 :</th>
+              <td><input name="db_pass" type="text" class="w240 txt" /></td>
+            </tr>
+            <tr>
+              <th align="right">数据库名称 :</th>
+              <td><input title="数据库名称" name="db_name" type="text" id="db_name" class="w240 txt" value="verydows" /></td>
+            </tr>
+            <tr>
+              <th align="right">数据库表前缀 :</th>
+              <td><input name="db_table_pre" id="db_table_pre" type="text" value="verydows_" class="w240 txt" /></td>
+            </tr>
+          </table>
+        </div>
+        <div class="module mt10">
+          <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="dirtable">
+            <tr><th colspan="2"><h2>设置系统初始化管理员</h2></th></tr>
+            <tr>
+              <th width="150" align="right">管理员用户名 :</th>
+              <td><input title="管理员用户名" name="admin_username" type="text" value="admin" id="admin_username" class="w240 txt" /><p class="caaa mt5">用户名可以包含字母、数字或下划线，须以字母开头，长度为5~16个字符</p></td>
+            </tr>
+            <tr>
+              <th align="right">设置密码 :</th>
+              <td><input title="设置密码" name="admin_password" type="password" id="admin_password" class="w240 txt" /><p class="caaa mt5">密码可包含字母、数字或特殊符号，长度为6~32个字符</p></td>
+            </tr>
+            <tr>
+              <th align="right">确认密码 :</th>
+              <td><input title="确认密码" name="admin_repassword" type="password" id="admin_repassword" class="w240 txt" /></td>
+            </tr>
+            <tr>
+              <th align="right">管理员邮箱 :</th>
+              <td><input title="管理员邮箱" name="admin_email" type="text" id="admin_email" class="w240 txt" placeholder="@" /></td>
+            </tr>
+          </table>
+        </div>
+        <div class="module mt20" style="text-align:center;">
+          <p>
+            <label class="mr10"><font class="mr5">是否安装样本数据:</font><input style="vertical-align:middle" name="sample_data" type="checkbox" value="1" checked="checked" /></label>
+            <span class="gray">(安装简单的样本测试数据)</span>
+          </p>
+          <p class="mt5 green">如果您是首次使用Verydows, 建议您选择安装样本数据，以便您能快速熟悉本系统的各项功能</p>
+        </div>
+      </div>
+    </div>
+    <div class="mt30" style="text-align:center;"><a class="sbtn btn" onclick="submitForm()">下一步</a></div>
+  </form>
+</div>
+<!-- container end -->
+</body>
+</html>
