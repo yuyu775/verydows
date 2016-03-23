@@ -1,5 +1,7 @@
-![verydows logo](http://www.verydows.com/public/index/images/logo.gif)  
-###### 免费、开源、高效、安全的PHP电子商务系统
+![verydows logo](http://www.verydows.com/public/index/images/logo.gif)
+```
+_免费、开源、高效、安全的PHP电子商务系统_
+```
 
 
 ### Verydows 特性简介
