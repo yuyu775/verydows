@@ -1,8 +1,6 @@
 ![verydows logo](http://www.verydows.com/public/index/images/logo.gif)  
 
-高效安全的电子商务系统
-
-版本1.0
+免费、开源、高效、安全的PHP电子商务系统
 
 
 ##Verydows 特性简介
