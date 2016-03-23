@@ -1,7 +1,7 @@
 <?php
 class main_controller extends general_controller
 {
-	public function action_index()
+    public function action_index()
     {
         $client_ip = vds_get_ip();
         if($stayed = vds_request('vds_bu_stayed', null, 'cookie'))
@@ -30,7 +30,7 @@ class main_controller extends general_controller
             $this->lockout = $lockout;
         }
         $this->tpl_display('login.html');
-	}
+    }
     
     public function action_login()
     {

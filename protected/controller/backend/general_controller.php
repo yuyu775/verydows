@@ -13,7 +13,7 @@ class general_controller extends Controller
     protected function tpl_display($tpl_name)
     {
         $this->display('backend'.DS.$tpl_name);
-	}
+    }
     
     protected function prompt($type = 'default', $text = '', $redirect = '', $time = 3)
     {

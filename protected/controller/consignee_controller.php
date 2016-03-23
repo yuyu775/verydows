@@ -1,7 +1,7 @@
 <?php
 class consignee_controller extends general_controller
 {
-	public function action_index()
+    public function action_index()
     {
         $user_id = parent::check_acl();
         $user_model = new user_model();

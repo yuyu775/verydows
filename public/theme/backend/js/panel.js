@@ -10,7 +10,3 @@ $(function(){
     $(this).addClass('on');
   });
 })
-
-function jump(uri) {
-  url = 'index.php?m=backend&' + uri; parent.$('#main').attr('src', url);
-}

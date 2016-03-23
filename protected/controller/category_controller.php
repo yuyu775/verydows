@@ -2,7 +2,7 @@
 class category_controller extends general_controller
 {
 	//商品分类
-	public function action_index()
+    public function action_index()
     {
         $id = intval(vds_request('id', 0, 'get'));
         $cate_model = new goods_cate_model();
@@ -38,6 +38,6 @@ class category_controller extends general_controller
         {
             vds_jump(url('main', '404'));
         }
-	}
+    }
 
 }

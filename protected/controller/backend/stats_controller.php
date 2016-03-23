@@ -92,7 +92,7 @@ class stats_controller extends general_controller
         }
     }
     
-	public function action_visitor()
+    public function action_visitor()
     {
         $todaystamp = strtotime('today');
         $this->todaystamp = $todaystamp;
@@ -220,6 +220,6 @@ class stats_controller extends general_controller
                     $this->tpl_display('operation/stats_traffic.html');
                 }
         }
-	}
+    }
     
 }

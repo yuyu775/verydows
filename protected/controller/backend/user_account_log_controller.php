@@ -1,7 +1,7 @@
 <?php
 class user_account_log_controller extends general_controller
 {
-	public function action_index()
+    public function action_index()
     {
         if(vds_request('step') == 'search')
         {
@@ -60,7 +60,7 @@ class user_account_log_controller extends general_controller
         {
             $this->tpl_display('user/account_log_list.html');
         }
-	}
+    }
     
     public function action_delete()
     {

@@ -10,34 +10,36 @@
 <script type="text/javascript" src="public/theme/backend/js/list.js"></script>
 <script type="text/javascript">
 $(function(){
-	$('#start_date').datetimepicker({
-		format:'Y-m-d',
-		formatDate:'Y-m-d',
-		allowBlank:true,
-		onShow:function(ct){
-   			this.setOptions({maxDate:$('#end_date').val()? $('#end_date').val(): false});
-  		},
-		timepicker:false,
-	});
-	$('#end_date').datetimepicker({
-		format:'Y-m-d',
-		formatDate: 'Y-m-d',
-		allowBlank:true,
-		onShow:function(ct){
-   			this.setOptions({minDate:$('#start_date').val()? $('#start_date').val():false})
-  		},
-		timepicker:false
-	});
+  $('#start_date').datetimepicker({
+    format:'Y-m-d',
+    formatDate:'Y-m-d',
+    allowBlank:true,
+    onShow:function(ct){
+      this.setOptions({maxDate:$('#end_date').val()? $('#end_date').val(): false});
+    },
+    timepicker:false,
+  });
+  $('#end_date').datetimepicker({
+    format:'Y-m-d',
+    formatDate: 'Y-m-d',
+    allowBlank:true,
+    onShow:function(ct){
+      this.setOptions({minDate:$('#start_date').val()? $('#start_date').val():false})
+    },
+    timepicker:false
+  });
 });
 </script>
 </head>
 <body>
 <div class="content">
-  <div class="loc">
-    <h2><i class="icon"></i>广告列表</h2>
-  </div>
+  <div class="loc"><h2><i class="icon"></i>广告列表</h2></div>
   <div class="box">
-    <div class="doacts"> <a class="ae add btn" href="<{url m=$MOD c='adv' a='add'}>"><i></i><font>添加新广告</font></a> <a class="ae btn" onclick="doslvent('<{url m=$MOD c='adv' a='edit'}>')"><i class="edit"></i><font>编辑</font></a> <a class="ae btn" onclick="domulent('<{url m=$MOD c='adv' a='delete'}>')"><i class="remove"></i><font>删除</font></a> </div>
+    <div class="doacts">
+      <a class="ae add btn" href="<{url m=$MOD c='adv' a='add'}>"><i></i><font>添加新广告</font></a>
+      <a class="ae btn" onclick="doslvent('<{url m=$MOD c='adv' a='edit'}>')"><i class="edit"></i><font>编辑</font></a>
+      <a class="ae btn" onclick="domulent('<{url m=$MOD c='adv' a='delete'}>')"><i class="remove"></i><font>删除</font></a>
+    </div>
     <form method="post" action="<{url m=$MOD c='adv' a='index'}>">
       <div class="stools mt5">
         <input class="date w150 txt" name="start_date" id="start_date" type="text" value="" placeholder="起始日期" />
@@ -92,7 +94,8 @@ $(function(){
     <{/if}>
     <{else}>
     <div class="nors mt5">未找到相关数据记录...</div>
-    <{/if}> </div>
+    <{/if}>
+  </div>
 </div>
 <script type="text/javascript" src="public/theme/backend/js/datetimepicker.js"></script>
 </body>

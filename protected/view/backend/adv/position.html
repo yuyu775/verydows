@@ -8,11 +8,11 @@
 <script type="text/javascript" src="public/theme/backend/js/vds.js"></script>
 <script type="text/javascript">
 function submitForm(){
-	$('#name').vdsChecker({required:true, maxlength:100});
-	$('#width').vdsChecker({nonegint:true, maxlength:4});
-	$('#height').vdsChecker({nonegint:true, maxlength:4});
-	$('#codes').vdsChecker({required:true});
-	$('form').vdsSubmit();
+  $('#name').vdsChecker({required:true, maxlength:100});
+  $('#width').vdsChecker({nonegint:true, maxlength:4});
+  $('#height').vdsChecker({nonegint:true, maxlength:4});
+  $('#codes').vdsChecker({required:true});
+  $('form').vdsSubmit();
 }
 </script>
 </head>
@@ -21,70 +21,69 @@ function submitForm(){
 <div class="content">
   <div class="loc"><h2><i class="icon"></i>添加新广告位</h2></div>
   <form method="post" action="<{url m=$MOD c='adv_position' a='add' step='submit'}>">
-  <div class="box">
-    <div class="module">
-      <table class="dataform">
-        <tr>
-          <th width="110">广告位名称</th>
-          <td><input title="广告位名称" class="w200 txt" name="name" id="name" type="text" /></td>
-        </tr>
-				<tr>
-          <th>宽度</th>
-          <td><input title="宽度" class="w100 txt" name="width" id="width" type="text" /><font class="c999 ml5">像素(px)</font></td>
-        </tr>
-				<tr>
-          <th>高度</th>
-          <td>
-		    		<input title="高度" class="w100 txt" name="height" id="height" type="text" /><font class="c999 ml5">像素(px)</font>
-						<p class="mt10 caaa">宽高留空或为0则表示不限制, 否则需输入0~9999之间的整数</p>
-		  		</td>
-        </tr>
-				<tr>
-					<th>模板代码</th>
-					<td><textarea title="模板代码" class="txtarea" name="codes" id="codes" cols="120" rows="15"></textarea></td>
-				</tr>
-      </table>
+    <div class="box">
+      <div class="module">
+        <table class="dataform">
+          <tr>
+            <th width="110">广告位名称</th>
+            <td><input title="广告位名称" class="w200 txt" name="name" id="name" type="text" /></td>
+          </tr>
+          <tr>
+            <th>宽度</th>
+            <td><input title="宽度" class="w100 txt" name="width" id="width" type="text" /><font class="c999 ml5">像素(px)</font></td>
+          </tr>
+          <tr>
+            <th>高度</th>
+            <td>
+              <input title="高度" class="w100 txt" name="height" id="height" type="text" /><font class="c999 ml5">像素(px)</font>
+              <p class="mt10 caaa">宽高留空或为0则表示不限制, 否则需输入0~9999之间的整数</p>
+            </td>
+          </tr>
+          <tr>
+            <th>模板代码</th>
+            <td><textarea title="模板代码" class="txtarea" name="codes" id="codes" cols="120" rows="15"></textarea></td>
+          </tr>
+        </table>
+      </div>
+      <div class="submitbtn">
+        <button type="button" class="ubtn btn" onclick="submitForm()">保存并提交</button>
+        <button type="reset" class="fbtn btn">重置表单</button>
+      </div>
     </div>
-    <div class="submitbtn">
-      <button type="button" class="ubtn btn" onclick="submitForm()">保存并提交</button>
-      <button type="reset" class="fbtn btn">重置表单</button>
-    </div>
-  </div>
   </form>
 </div>
 <{else}>
 <div class="content">
   <div class="loc"><h2><i class="icon"></i>编辑广告位:<font class="ml5">[<{$rs.id}>]</font></h2></div>
   <form method="post" action="<{url m=$MOD c='adv_position' a='edit' step='submit' id=$rs.id}>">
-  <div class="box">
-    <div class="module">
-      <table class="dataform">
-        <tr>
-          <th width="110">广告位名称</th>
-          <td><input title="广告位名称" class="w200 txt" name="name" id="name" type="text" value="<{$rs.name}>" /></td>
-        </tr>
-				<tr>
-          <th>宽度</th>
-          <td><input title="宽度" class="w100 txt" name="width" id="width" type="text" value="<{$rs.width}>" /><font class="c999 ml5">像素(px)</font></td>
-        </tr>
-				<tr>
-          <th>高度</th>
-          <td>
-		    		<input title="高度" class="w100 txt" name="height" id="height" type="text" value="<{$rs.height}>" /><font class="c999 ml5">像素(px)</font>
-						<p class="mt10 caaa">宽高留空或为0则表示不限制, 否则需输入0~9999之间的整数</p>
-		  		</td>
-        </tr>
-				<tr>
-		  		<th>模板代码</th>
-		  		<td><textarea title="模板代码" class="txtarea" name="codes" id="codes" cols="120" rows="15"><{$rs.codes nofilter}></textarea></td>
-				</tr>
-      </table>
+    <div class="box">
+      <div class="module">
+        <table class="dataform">
+          <tr>
+            <th width="110">广告位名称</th>
+            <td><input title="广告位名称" class="w200 txt" name="name" id="name" type="text" value="<{$rs.name}>" /></td>
+          </tr>
+          <tr>
+            <th>宽度</th>
+            <td><input title="宽度" class="w100 txt" name="width" id="width" type="text" value="<{$rs.width}>" /><font class="c999 ml5">像素(px)</font></td>
+          </tr>
+          <tr>
+            <th>高度</th>
+            <td>
+              <input title="高度" class="w100 txt" name="height" id="height" type="text" value="<{$rs.height}>" /><font class="c999 ml5">像素(px)</font>
+              <p class="mt10 caaa">宽高留空或为0则表示不限制, 否则需输入0~9999之间的整数</p></td>
+          </tr>
+          <tr>
+            <th>模板代码</th>
+            <td><textarea title="模板代码" class="txtarea" name="codes" id="codes" cols="120" rows="15"><{$rs.codes nofilter}></textarea></td>
+          </tr>
+        </table>
+      </div>
+      <div class="submitbtn">
+        <button type="button" class="ubtn btn" onclick="submitForm()">保存并更新</button>
+        <button type="reset" class="fbtn btn">重置表单</button>
+      </div>
     </div>
-    <div class="submitbtn">
-      <button type="button" class="ubtn btn" onclick="submitForm()">保存并更新</button>
-      <button type="reset" class="fbtn btn">重置表单</button>
-    </div>
-  </div>
   </form>
 </div>
 <{/if}>

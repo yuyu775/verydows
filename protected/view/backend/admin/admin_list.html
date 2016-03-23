@@ -12,11 +12,7 @@
 <div class="content">
   <div class="loc"><h2><i class="icon"></i>管理员列表</h2></div>
   <div class="box">
-    <div class="doacts">
-			<a class="ae add btn" href="<{url m=$MOD c='admin' a='add'}>"><i></i><font>添加新管理员</font></a>
-			<a class="ae btn" onclick="doslvent('<{url m=$MOD c='admin' a='edit'}>', 'id')"><i class="edit"></i><font>编辑</font></a>
-			<a class="ae btn" onclick="doslvent('<{url m=$MOD c='admin' a='delete'}>', 'id')"><i class="remove"></i><font>删除</font></a>
-		</div>
+    <div class="doacts"> <a class="ae add btn" href="<{url m=$MOD c='admin' a='add'}>"><i></i><font>添加新管理员</font></a> <a class="ae btn" onclick="doslvent('<{url m=$MOD c='admin' a='edit'}>', 'id')"><i class="edit"></i><font>编辑</font></a> <a class="ae btn" onclick="doslvent('<{url m=$MOD c='admin' a='delete'}>', 'id')"><i class="remove"></i><font>删除</font></a> </div>
     <div class="module mt5">
       <table class="datalist">
         <tr>
@@ -42,8 +38,10 @@
         <{/foreach}>
       </table>
     </div>
-    <{if !empty($paging)}><div class="bom mt5"><{html_paging m=$MOD c='admin' a='index' paging=$paging class='paging'}></div><{/if}>
-	</div>
+    <{if !empty($paging)}>
+    <div class="bom mt5"><{html_paging m=$MOD c='admin' a='index' paging=$paging class='paging'}></div>
+    <{/if}>
+  </div>
 </div>
 </body>
 </html>

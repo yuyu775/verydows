@@ -7,7 +7,7 @@ class admin_controller extends general_controller
         $this->results = $admin_model->find_all(null, 'user_id DESC', '*', array(vds_request('page', 1), 15));
         $this->paging = $admin_model->page;
         $this->tpl_display('admin/admin_list.html');
-	}
+    }
     
     public function action_add()
     {
@@ -137,10 +137,8 @@ class admin_controller extends general_controller
         if($id == 1) $this->prompt('error', '此管理员用户不能被删除');
 
         $admin_model = new admin_model();
-        if(($admin_model->delete(array('user_id' => $id))) > 0)
-            $this->prompt('success', '删除管理员成功', url($this->MOD.'/admin', 'index'));
-        else
-            $this->prompt('error', '删除管理员失败');
+        if($admin_model->delete(array('user_id' => $id)) > 0) $this->prompt('success', '删除管理员成功', url($this->MOD.'/admin', 'index'));
+        $this->prompt('error', '删除管理员失败'); 
     }
     
     //清除缓存

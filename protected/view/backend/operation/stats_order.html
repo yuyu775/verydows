@@ -86,10 +86,7 @@ function selectYear(){
     </div>
     <div class="bw-row mt5 pad10 ta-c cut">
       <div class="bw-row pad10 cut">
-        <label>
-	  <font class="c888 mr5">选择年份</font>
-	  <select class="slt" name="start_year" id="start_year"><{html_date_options type="year" start_year="-10" default=$def_year}></select>
-	</label>
+        <label><font class="c888 mr5">选择年份</font><select class="slt" name="start_year" id="start_year"><{html_date_options type="year" start_year="-10" default=$def_year}></select></label>
         <button class="cbtn btn" type="button" onclick="selectYear()">查询</button>
       </div>
       <div class="mt10 c666" id="chart-title"></div>

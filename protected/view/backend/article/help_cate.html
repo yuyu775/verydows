@@ -8,9 +8,9 @@
 <script type="text/javascript" src="public/theme/backend/js/vds.js"></script>
 <script type="text/javascript">
 function submitForm(){
-	$('#cate_name').vdsChecker({required:true, maxlength:60});
-	$('#seq').vdsChecker({seq:true}, {seq:'无效的排序！只能填写 0 到 99 的整数'}, {seq: /^([1-9]\d|\d)$/.test($('#seq').val())});
-	$('form').vdsSubmit();
+  $('#cate_name').vdsChecker({required:true, maxlength:60});
+  $('#seq').vdsChecker({seq:true}, {seq:'无效的排序！只能填写 0 到 99 的整数'}, {seq: /^([1-9]\d|\d)$/.test($('#seq').val())});
+  $('form').vdsSubmit();
 }
 </script>
 </head>
@@ -26,7 +26,7 @@ function submitForm(){
           <th width="110">分类名称</th>
           <td><input title="分类名称" class="w200 txt" name="cate_name" id="cate_name" type="text" /></td>
         </tr>
-				<tr>
+        <tr>
           <th>排序</th>
           <td><input title="排序" class="w50 txt" name="seq" id="seq" type="text" value="99" /></td>
         </tr>
@@ -50,7 +50,7 @@ function submitForm(){
           <th width="110">分类名称</th>
           <td><input title="分类名称" class="w200 txt" name="cate_name" id="cate_name" type="text" value="<{$rs.cate_name}>" /></td>
         </tr>
-				<tr>
+        <tr>
           <th>排序</th>
           <td><input title="排序" class="w50 txt" name="seq" id="seq" type="text" value="<{$rs.seq}>" /></td>
         </tr>

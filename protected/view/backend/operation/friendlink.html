@@ -65,9 +65,7 @@ function submitForm(){
 </div>
 <{else}>
 <div class="content">
-  <div class="loc">
-    <h2><i class="icon"></i>编辑友情链接:<font class="ml5">[<{$rs.id}>]</font></h2>
-  </div>
+  <div class="loc"><h2><i class="icon"></i>编辑友情链接:<font class="ml5">[<{$rs.id}>]</font></h2></div>
   <form method="post" enctype="multipart/form-data" action="<{url m=$MOD c='friendlink' a='edit' step='submit' id=$rs.id}>">
     <div class="box">
       <div class="module">
@@ -78,41 +76,31 @@ function submitForm(){
           </tr>
           <tr>
             <th>网址</th>
-            <td><input title="网址" class="w400 txt" name="url" id="url" type="text" value="<{$rs.url}>" />
-              <p class="caaa mt10">请填写以 "http://" 开头的链接网址</p></td>
+            <td><input title="网址" class="w400 txt" name="url" id="url" type="text" value="<{$rs.url}>" /><p class="caaa mt10">请填写以 "http://" 开头的链接网址</p></td>
           </tr>
           <tr>
             <th>链接LOGO</th>
-            <td><dl class="upsw pad5">
+            <td>
+              <dl class="upsw pad5">
                 <{if !empty($rs.logo)}>
                 <dt class="pad5"><a class="ml5 mr5">上传文件</a><a class="cur ml10">输入URL</a></dt>
                 <dd class="mt5 pad5" id="advimg">
                   <div class="hide">
-                    <label>
-                    <input name="logo_file" type="file" />
-                    </label>
+                    <label><input name="logo_file" type="file" /></label>
                     <p class="c999 mt10">仅允许上传 "png"、"jpg"、"jpeg"、"gif" 类型的图片</p>
                   </div>
                   <div>
-                    <label>
-                    <input name="logo_src" class="w500 txt" type="text" value="<{$rs.logo}>" />
-                    </label>
+                    <label><input name="logo_src" class="w500 txt" type="text" value="<{$rs.logo}>" /></label>
                     <a title="查看图片" class="picflag icon ml5" onclick="$(this).vdsPopMedia({src:'<{$rs.logo}>'})"></a> </div>
                 </dd>
                 <{else}>
                 <dt class="pad5"><a class="cur ml5 mr5">上传文件</a><a class="ml10">输入URL</a></dt>
                 <dd class="mt5 pad5" id="advimg">
                   <div>
-                    <label>
-                    <input name="logo_file" type="file" />
-                    </label>
+                    <label><input name="logo_file" type="file" /></label>
                     <p class="c999 mt10">仅允许上传 "png"、"jpg"、"jpeg"、"gif" 类型的图片</p>
                   </div>
-                  <div class="hide">
-                    <label>
-                    <input name="logo_src" class="w500 txt" type="text" />
-                    </label>
-                  </div>
+                  <div class="hide"><label><input name="logo_src" class="w500 txt" type="text" /></label></div>
                 </dd>
                 <{/if}>
               </dl></td>

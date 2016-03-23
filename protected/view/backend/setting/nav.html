@@ -29,7 +29,8 @@ function submitForm(){
           </tr>
           <tr>
             <th>位置</th>
-            <td><select name="position" class="slt" id="position">
+            <td>
+              <select name="position" class="slt" id="position">
                 <{foreach $pos_map as $k => $v}>
                 <option value="<{$k}>"><{$v}></option>
                 <{/foreach}>

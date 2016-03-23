@@ -9,6 +9,12 @@
 <script type="text/javascript" src="public/theme/backend/js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="public/theme/backend/js/vds.js"></script>
 <script type="text/javascript" src="public/theme/backend/js/panel.js"></script>
+<script type="text/javascript">
+function jump(uri){
+  url = 'index.php?m=<{$MOD}>&' + uri;
+  parent.$('#main').attr('src', url);
+}
+</script>
 </head>
 <body>
 <!-- 头部开始 -->
@@ -34,7 +40,8 @@
     </div>
     <{/if}>
     <{/foreach}>
-    <{/foreach}> </div>
+    <{/foreach}>
+  </div>
   <!-- 菜单结束 -->
   <!-- 主体开始 -->
   <div class="rwrap">

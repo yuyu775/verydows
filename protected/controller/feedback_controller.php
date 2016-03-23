@@ -1,7 +1,7 @@
 <?php
 class feedback_controller extends general_controller
 {
-	public function action_index()
+    public function action_index()
     {
         $user_id = parent::check_acl();
         $feedback_model = new feedback_model();
@@ -12,7 +12,7 @@ class feedback_controller extends general_controller
             'type_map' => $feedback_model->type_map,
         );
         parent::tpl_display('user_feedback_list.html');
-	}
+    }
     
     public function action_details()
     {

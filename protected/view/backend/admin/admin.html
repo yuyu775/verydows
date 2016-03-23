@@ -8,29 +8,27 @@
 <script type="text/javascript" src="public/theme/backend/js/vds.js"></script>
 <script type="text/javascript">
 function submitForm(){
-	$('#username').vdsChecker({username:true}, {username:'用户名不符合格式要求'}, {username: /^[a-zA-Z][_a-zA-Z0-9]{4,15}$/.test($('#username').val())});
-	if($('#resetpwd').val() == 1){
-		$('#password').vdsChecker({password:true}, {password:'密码不符合格式要求'}, {password: /^[\\~!@#$%^&*()-_=+|{}\[\],.?\/:;\'\"\d\w]{6,31}$/.test($('#password').val())});
-	}
-	$('#repassword').vdsChecker({equal:$('#password').val()}, {equal:'两次密码不一致'});
-	$('#name').vdsChecker({required:true, maxlength:60});
-	$('#email').vdsChecker({required:true, email:true, maxlength:60});
-	$('form').vdsSubmit();
+  $('#username').vdsChecker({username:true}, {username:'用户名不符合格式要求'}, {username: /^[a-zA-Z][_a-zA-Z0-9]{4,15}$/.test($('#username').val())});
+  if($('#resetpwd').val() == 1){
+    $('#password').vdsChecker({password:true}, {password:'密码不符合格式要求'}, {password: /^[\\~!@#$%^&*()-_=+|{}\[\],.?\/:;\'\"\d\w]{6,31}$/.test($('#password').val())});
+  }
+  $('#repassword').vdsChecker({equal:$('#password').val()}, {equal:'两次密码不一致'});
+  $('#name').vdsChecker({required:true, maxlength:60});
+  $('#email').vdsChecker({required:true, email:true, maxlength:60});
+  $('form').vdsSubmit();
 }
 
 function resetPwd(btn){
-	$('.setpwd').removeClass('hide');
-	$('#resetpwd').val(1);
-	$(btn).parentsUntil('tr').parent().addClass('hide');
+  $('.setpwd').removeClass('hide');
+  $('#resetpwd').val(1);
+  $(btn).parentsUntil('tr').parent().addClass('hide');
 }
 </script>
 </head>
 <body>
 <{if $_GET['a'] == 'add'}>
 <div class="content">
-  <div class="loc">
-    <h2><i class="icon"></i>添加新管理员</h2>
-  </div>
+  <div class="loc"><h2><i class="icon"></i>添加新管理员</h2></div>
   <form method="post" action="<{url m=$MOD c='admin' a='add' step='submit'}>">
     <div class="box">
       <div class="module">
@@ -44,7 +42,7 @@ function resetPwd(btn){
             <td><input title="密码" class="w200 txt" name="password" id="password" type="password" />
               <input type="hidden" name="resetpwd" id="resetpwd" value="1" />
               <p class="c999 mt10">可以包含字母、数字以及特殊符号，长度为6-32个字符</p>
-						</td>
+            </td>
           </tr>
           <tr>
             <th>确认密码</th>
@@ -75,7 +73,7 @@ function resetPwd(btn){
               <{else}>
               <div class="pad5"><font class="c999">系统中尚未添加任何管理员角色</font><a class="blue ml5" href="<{url m=$MOD c='role' a='add'}>">点击添加角色</a></div>
               <{/if}>
-						</td>
+            </td>
           </tr>
         </table>
       </div>
@@ -97,20 +95,20 @@ function resetPwd(btn){
             <th width="110">用户名</th>
             <td><input title="用户名" class="w200 txt" name="username" id="username" type="text" value="<{$rs.username}>" />
               <p class="c999 mt10">可以包含字母、数字或下划线，须以字母开头，长度为5-16个字符</p>
-						</td>
+            </td>
           </tr>
           <tr>
             <th>重设密码</th>
             <td><button type="button" class="cbtn sm btn" onclick="resetPwd(this)">点击重新设置密码</button>
               <input type="hidden" name="resetpwd" id="resetpwd" value="" />
               <p class="c999 mt10">如需重设密码请点击以上按钮，否则密码保持不变</p>
-						</td>
+            </td>
           </tr>
           <tr class="setpwd hide">
             <th>密码</th>
             <td><input title="密码" class="w200 txt" name="password" id="password" type="password" />
               <p class="c999 mt10">可以包含字母、数字以及特殊符号，长度为6-32个字符</p>
-						</td>
+            </td>
           </tr>
           <tr class="setpwd hide">
             <th>确认密码</th>
@@ -144,7 +142,7 @@ function resetPwd(btn){
               <{else}>
               <div class="pad5"><font class="c999">系统中尚未添加任何管理员角色</font><a class="blue ml5" href="<{url m=$MOD c='role' a='add'}>">点击添加角色</a></div>
               <{/if}>
-						</td>
+            </td>
           </tr>
           <{/if}>
           <tr>
