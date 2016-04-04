@@ -27,8 +27,6 @@ class order_model extends Model
     
     /**
      * 获取订单当前给用户的显示进度
-     * @param $order_status 订单状态
-     * @param $payment_method 付款方式
      */
     public function get_user_order_progress($order_status, $payment_method)
     {
@@ -66,15 +64,13 @@ class order_model extends Model
     /**
      * 获取用户付款按钮操作
      */
-    public function get_pay_btn_handle($order)
+    public function get_pay_btn_handle(&$order)
     {
-        $method_model = new payment_method_model();
-        if($method = $method_model->find(array('id' => $order['payment_method'], 'enable' => 1)))
+        $payment_model = new payment_method_model();
+        if($payment = $payment_model->find(array('id' => $order['payment_method'], 'enable' => 1)))
         {
-            include(APP_DIR.DS.'protected'.DS.'plugin'.DS.'payment'.DS.$method['pcode'].'.php');
-            $payment_settings = json_decode($method['params'], TRUE);
-            $gateway_obj = new $method['pcode']($payment_settings);
-            return $gateway_obj->get_request_url($order);
+            $gateway_obj = plugin::instance('payment', $payment['pcode'], array($payment['params']));
+            return $gateway_obj->create_pay_url($order);
         }
         return FALSE;
     }

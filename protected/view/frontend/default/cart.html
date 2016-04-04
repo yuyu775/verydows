@@ -21,12 +21,12 @@ function checkout(){
   $.ajax({
     type: "post",
     dataType: "text",
-    url: "<{url c='order' a='cart' step='checkout'}>",
+    url: "<{url c='cart' a='index' step='checkout'}>",
     data: {'key':key, 'qty': qty},
     beforeSend:function(){$('#checkout-btn').text('正在提交...');},	
     success: function(data){
       if(data == 1){
-        window.location.href = "<{url c='order' a='confirm'}>";
+        window.location.href = "<{url c='cart' a='confirm'}>";
       }else{
         alert('提交失败，请重试！');
         $('#checkout-btn').text('去结算');

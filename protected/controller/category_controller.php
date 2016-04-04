@@ -9,9 +9,8 @@ class category_controller extends general_controller
         if($this->cateinfo = $cate_model->find(array('cate_id' => $id)))
         {
             $this->breadcrumbs = $cate_model->breadcrumbs($id);
-            $vcache = new vcache();
-            $this->recommend = $vcache->goods_model('find_goods', array(array('cate' => $id, 'recommend' => 1), 5), $GLOBALS['cfg']['data_cache_lifetime']);
-            $this->bargain = $vcache->goods_model('find_goods', array(array('cate' => $id, 'bargain' => 1), 5), $GLOBALS['cfg']['data_cache_lifetime']);
+            $this->recommend = $GLOBALS['instance']['cache']->goods_model('find_goods', array(array('cate' => $id, 'recommend' => 1), 5), $GLOBALS['cfg']['data_cache_lifetime']);
+            $this->bargain = $GLOBALS['instance']['cache']->goods_model('find_goods', array(array('cate' => $id, 'bargain' => 1), 5), $GLOBALS['cfg']['data_cache_lifetime']);
             
             $conditions = array
             (

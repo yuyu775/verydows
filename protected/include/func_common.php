@@ -7,7 +7,7 @@ function vds_request($name, $default = FALSE, $method = 'request')
     switch($method)
     {
         case 'get': $value = isset($_GET[$name]) ? $_GET[$name]: FALSE; break;
-		case 'post': $value = isset($_POST[$name]) ? $_POST[$name] : FALSE; break;
+        case 'post': $value = isset($_POST[$name]) ? $_POST[$name] : FALSE; break;
         case 'cookie': $value = isset($_COOKIE[$name]) ? $_COOKIE[$name] : FALSE; break;
         case 'request': 
         default:
@@ -32,7 +32,7 @@ function vds_jump($url, $delay = 0)
  */
 function vds_encrypt($val)
 {
-    if(strlen($val) > 0 && !empty($GLOBALS['cfg']['encrypt_key']))
+    if(strlen($val) > 0 && strlen($GLOBALS['cfg']['encrypt_key']) > 0)
     {
         $val = base64_encode($val);
         $key = sha1($GLOBALS['cfg']['encrypt_key']);
@@ -50,17 +50,17 @@ function vds_encrypt($val)
  */
 function vds_decrypt($val)
 {   
-  if(!empty($val) > 0 && !empty($GLOBALS['cfg']['encrypt_key']))
-  {
-      $key = sha1($GLOBALS['cfg']['encrypt_key']);
-      $key_arr = str_split($key);
-      $val_arr = explode('.', strrev($val));
-      if(count($val_arr) > count($key_arr)) $key_arr = str_split(str_pad($key, count($val_arr), $key, STR_PAD_RIGHT));
-      $de = '';
-      foreach($val_arr as $k => $v) $de .= chr($v - ord($key_arr[$k]));
-      return base64_decode($de);
-  }
-  return FALSE;
+    if(strlen($val) > 0 && strlen($GLOBALS['cfg']['encrypt_key']) > 0)
+    {
+        $key = sha1($GLOBALS['cfg']['encrypt_key']);
+        $key_arr = str_split($key);
+        $val_arr = explode('.', strrev($val));
+        if(count($val_arr) > count($key_arr)) $key_arr = str_split(str_pad($key, count($val_arr), $key, STR_PAD_RIGHT));
+        $de = '';
+        foreach($val_arr as $k => $v) $de .= chr($v - ord($key_arr[$k]));
+        return base64_decode($de);
+    }
+    return FALSE;
 }
     
 /**
@@ -93,15 +93,15 @@ function vds_array_column(array $input, $column_key = null, $index_key = null)
 function vds_random_chars($length = 20, $is_numeric = FALSE)
 {
     $hex = base_convert(md5(microtime().$GLOBALS['cfg']['http_host']), 16, $is_numeric ? 10 : 35);
-	$hex = $is_numeric ? (str_replace('0', '', $hex).'012340567890') : ($hex.'zZ'.strtoupper($hex));
+    $hex = $is_numeric ? (str_replace('0', '', $hex).'012340567890') : ($hex.'zZ'.strtoupper($hex));
     $random = '';
-	if(!$is_numeric)
+    if(!$is_numeric)
     {
-		$random = chr(rand(1, 26) + rand(0, 1) * 32 + 64);
-		$length --;
-	}
-	for($i = 0; $i < $length; $i++) $random .= $hex{mt_rand(0, strlen($hex) - 1)};
-	return $random;
+        $random = chr(rand(1, 26) + rand(0, 1) * 32 + 64);
+        $length --;
+    }
+    for($i = 0; $i < $length; $i++) $random .= $hex{mt_rand(0, strlen($hex) - 1)};
+    return $random;
 }
 	
 /**

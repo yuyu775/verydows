@@ -5,8 +5,7 @@ class payment_method_controller extends general_controller
     {
         $method_model = new payment_method_model();
         $this->type_map = $method_model->type_map;
-        $vcache = new vcache();
-        $this->results = $vcache->payment_method_model('indexed_list');
+        $this->results = $method_model->find_all(null, 'seq ASC');
         $this->tpl_display('payment/method_list.html');
     }
 

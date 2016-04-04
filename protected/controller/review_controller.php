@@ -3,7 +3,7 @@ class review_controller extends general_controller
 {
     public function action_index()
     {
-        $user_id = parent::check_acl();
+        $user_id = $this->is_logged();
         $review_model = new goods_review_model();
         $this->review_list = array
         (
@@ -11,12 +11,12 @@ class review_controller extends general_controller
             'paging' => $review_model->page,
         );
         $this->rating_map = $review_model->rating_map;
-        parent::tpl_display('user_review_list.html');
+        $this->tpl_display('user_review_list.html');
     }
     
     public function action_order()
     {
-        $user_id = parent::check_acl();
+        $user_id = $this->is_logged();
         if(vds_request('step', null, 'get') == 'submit')
         {
             $order_id = vds_request('order_id', null, 'get');
@@ -30,7 +30,7 @@ class review_controller extends general_controller
                     if($order_goods_model->find(array('order_id' => $order_id, 'goods_id' => $goods_id)))
                     {
                         $review_model = new goods_review_model();
-                        if($review_model->find(array('order_id' => $order_id, 'goods_id' => $goods_id, 'user_id' => $user_id))) parent::prompt('error', '您已对该商品作出过评价');
+                        if($review_model->find(array('order_id' => $order_id, 'goods_id' => $goods_id, 'user_id' => $user_id))) $this->prompt('error', '您已对该商品作出过评价');
                         $data = array
                         (
                             'order_id' => $order_id,
@@ -45,21 +45,21 @@ class review_controller extends general_controller
                         if(TRUE === $verifier)
                         {
                             $review_model->create($data);
-                            parent::prompt('success', '发表商品评价成功');
+                            $this->prompt('success', '发表评价成功');
                         }
                         else
                         {
-                            parent::prompt('error', $verifier);
+                            $this->prompt('error', $verifier);
                         }
                     }
                     else
                     {
-                        vds_jump(url('main', '404'));
+                        $this->prompt('error', '订单商品不存在');
                     }
                 }
                 else
                 {
-                    parent::prompt('error', '交易尚未完成，请完成后再评价');
+                    $this->prompt('error', '交易尚未完成，请完成后再评价');
                 }
             }
             else
@@ -85,11 +85,11 @@ class review_controller extends general_controller
                         if($review_model->find(array('order_id' => $order_id, 'goods_id' => $v['goods_id']))) $goods_list[$k]['is_reviewed'] = 1;
                     }
                     $this->goods_list = $goods_list;
-                    parent::tpl_display('user_order_review.html');
+                    $this->tpl_display('user_order_review.html');
                 }
                 else
                 {
-                    parent::prompt('error', '交易尚未完成，您还无法进行此操作');
+                    $this->prompt('error', '交易尚未完成，您还无法进行此操作');
                 }
             }
             else
@@ -98,5 +98,4 @@ class review_controller extends general_controller
             }
         }
     }
-
 }

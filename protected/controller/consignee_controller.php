@@ -3,7 +3,7 @@ class consignee_controller extends general_controller
 {
     public function action_index()
     {
-        $user_id = parent::check_acl();
+        $user_id = $this->is_logged();
         $user_model = new user_model();
         $this->user = $user_model->find(array('user_id' => $user_id));
         $consignee_model = new user_consignee_model();
@@ -14,13 +14,13 @@ class consignee_controller extends general_controller
             'total' => $consignee_list_count,
             'remaining' => $GLOBALS['cfg']['user_consignee_limits'] - $consignee_list_count,
         );
-        parent::tpl_display('user_consignee_list.html');
+        $this->tpl_display('user_consignee_list.html');
     }
 
     public function action_add()
     {
         $async = vds_request('async', 0);
-        if($user_id = parent::check_acl($async))
+        if($user_id =$this->is_logged($async))
         {
             $data = array
             (
@@ -48,7 +48,7 @@ class consignee_controller extends general_controller
                     }
                     else
                     {
-                        parent::prompt('success', '创建收件人地址成功');
+                        $this->prompt('success', '创建收件人地址成功');
                     }
                 }
                 else
@@ -60,7 +60,7 @@ class consignee_controller extends general_controller
                     }
                     else
                     {
-                        parent::prompt('error', $data);
+                        $this->prompt('error', $data);
                     }
                 }
             }
@@ -72,7 +72,7 @@ class consignee_controller extends general_controller
                 }
                 else
                 {
-                    parent::prompt('error', $verifier);
+                    $this->prompt('error', $verifier);
                 }
             }
         }
@@ -85,7 +85,7 @@ class consignee_controller extends general_controller
     public function action_edit()
     {
         $async = vds_request('async', 0);
-        if($user_id = parent::check_acl($async))
+        if($user_id =$this->is_logged($async))
         {
             $data = array
             (
@@ -114,7 +114,7 @@ class consignee_controller extends general_controller
                     }
                     else
                     {
-                        parent::prompt('success', '更新收件人地址成功');
+                        $this->prompt('success', '更新收件人地址成功');
                     }
                 } 
                 else
@@ -125,7 +125,7 @@ class consignee_controller extends general_controller
                     }
                     else
                     {
-                        parent::prompt('error', '更新收件人地址失败');
+                        $this->prompt('error', '更新收件人地址失败');
                     }
                 }
             }
@@ -137,7 +137,7 @@ class consignee_controller extends general_controller
                 }
                 else
                 {
-                    parent::prompt('error', $verifier);
+                    $this->prompt('error', $verifier);
                 }
             }
         }
@@ -147,25 +147,19 @@ class consignee_controller extends general_controller
         }
     }
     
-    public function action_setdef()
+    public function action_as_default()
     {
-        $user_id = parent::check_acl();
-        $id = vds_request('id', 0, 'get');
+        $user_id = $this->is_logged();
+        $id = intval(vds_request('id', 0, 'get'));
         $consignee_model = new user_consignee_model();
         $consignee_model->update(array('user_id' => $user_id, 'is_default' => 1), array('is_default' => 0));
-        if($consignee_model->update(array('id' => $id, 'user_id' => $user_id), array('is_default' => 1)) > 0)
-        {
-            parent::prompt('success', '设为默认地址成功', url('consignee', 'index'));
-        }
-        else
-        {
-            parent::prompt('error', '设置失败');
-        }
+        $consignee_model->update(array('id' => $id, 'user_id' => $user_id), array('is_default' => 1));
+        $this->prompt('success', '设为默认地址成功', url('consignee', 'index'));
     }
     
-    public function action_asyncgetinfo()
+    public function action_info()
     {
-        if($user_id = parent::check_acl(1))
+        if($user_id = $this->is_logged(1))
         {
             $res = array();
             $consignee_model = new user_consignee_model();
@@ -184,18 +178,18 @@ class consignee_controller extends general_controller
             echo json_encode(array('status' => 'error', 'data' => '您尚未登录或登录超时'));
         }
     }
-
+    
     public function action_delete()
     {
-        $user_id = parent::check_acl();
+        $user_id = $this->is_logged();
         $consignee_model = new user_consignee_model();
         if($consignee_model->delete(array('id' => intval(vds_request('id', 0, 'get')), 'user_id' => $user_id)) > 0)
         {
-            parent::prompt('success', '删除收件人地址成功', url('consignee', 'index'));
+            $this->prompt('success', '删除收件人地址成功', url('consignee', 'index'));
         }  
         else
         {
-            parent::prompt('error', '删除收件人地址失败');
+            $this->prompt('error', '删除收件人地址失败');
         }
     }
 }

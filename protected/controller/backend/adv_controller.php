@@ -41,8 +41,7 @@ class adv_controller extends general_controller
         $this->results = $adv_model->query($sql ,$binds);
         $this->paging = $adv_model->page;
         $this->type_map = $adv_model->type_map;
-        $vcache = new vcache();
-        $this->position_list = $vcache->adv_position_model('indexed_list');
+        $this->position_list = $GLOBALS['instance']['cache']->adv_position_model('indexed_list');
         $this->tpl_display('adv/adv_list.html');
     }
 
@@ -82,8 +81,7 @@ class adv_controller extends general_controller
         }
         else
         {
-            $vcache = new vcache();
-            $this->position_list = $vcache->adv_position_model('indexed_list');
+            $this->position_list = $GLOBALS['instance']['cache']->adv_position_model('indexed_list');
             $this->position_id = vds_request('position', 0, 'get');
             $this->tpl_display('adv/adv.html');
         }
@@ -131,8 +129,7 @@ class adv_controller extends general_controller
             {
                 $rs['params'] = json_decode($rs['params'], TRUE);
                 $this->rs = $rs;
-                $vcache = new vcache();
-                $this->position_list = $vcache->adv_position_model('indexed_list');
+                $this->position_list = $GLOBALS['instance']['cache']->adv_position_model('indexed_list');
                 $this->tpl_display('adv/adv.html');
             }
             else

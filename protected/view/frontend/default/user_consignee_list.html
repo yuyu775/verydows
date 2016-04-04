@@ -138,7 +138,7 @@ function submitConsigneeForm(){
                 <td><p class="aln-c"><{$v.zip}></p></td>
                 <td>
                   <div class="aln-c">
-                    <{if $v.is_default == 1}><font class="red ml5 mr5">默认地址</font><{else}><a href="<{url c='consignee' a='setdef' id=$v.id}>">设为默认</a><{/if}>
+                    <{if $v.is_default == 1}><font class="red ml5 mr5">默认地址</font><{else}><a href="<{url c='consignee' a='as_default' id=$v.id}>">设为默认</a><{/if}>
                     <a onclick="getConsigneeInfo('consignee-box', '<{$v.id}>')">编辑</a>
                     <a href="<{url c='consignee' a='delete' id=$v.id}>">删除</a>
                   </div>

@@ -240,8 +240,7 @@ class main_controller extends general_controller
         {
             case 1: 
                 
-                $vcache = new vcache();
-                $return = $vcache->clear();
+                $return = $GLOBALS['instance']['cache']->clear();
             
             break;
             
@@ -266,8 +265,6 @@ class main_controller extends general_controller
                 $return = $model->execute("DELETE FROM {$GLOBALS['mysql']['MYSQL_DB_TABLE_PRE']}login_security WHERE expires <= {$_SERVER['REQUEST_TIME']}");
             
             break;
-            
-            default: return FALSE;
         }
         return $return;
     }

@@ -71,9 +71,8 @@ class goods_controller extends general_controller
         }
         else
         {
-            $vcache = new vcache();
-            $this->cateselect = $vcache->goods_cate_model('indexed_cate_tree');
-            $this->brandselect = $vcache->brand_model('indexed_list');
+            $this->cateselect = $GLOBALS['instance']['cache']->goods_cate_model('indexed_cate_tree');
+            $this->brandselect = $GLOBALS['instance']['cache']->brand_model('indexed_list');
             $this->tpl_display('goods/goods_list.html');
         }
     }
@@ -141,10 +140,9 @@ class goods_controller extends general_controller
         }
         else
         {
-            $vcache = new vcache();
-            $this->cate_select = $vcache->goods_cate_model('indexed_cate_tree');
-            $this->brand_select = $vcache->brand_model('indexed_list');
-            $this->opt_type_select = $vcache->goods_optional_type_model('indexed_list');
+            $this->cate_select = $GLOBALS['instance']['cache']->goods_cate_model('indexed_cate_tree');
+            $this->brand_select = $GLOBALS['instance']['cache']->brand_model('indexed_list');
+            $this->opt_type_select = $GLOBALS['instance']['cache']->goods_optional_type_model('indexed_list');
             $this->tpl_display('goods/goods.html');
         }
     }
@@ -248,8 +246,7 @@ class goods_controller extends general_controller
                     $goods_model = new goods_model();
                     if($this->goods = $goods_model->find(array('goods_id' => $goods_id), null, 'goods_id, cate_id, goods_name, goods_sn'))
                     {
-                        $vcache = new vcache();
-                        $this->cates = $vcache->goods_cate_model('indexed_cate_tree');
+                        $this->cates = $GLOBALS['instance']['cache']->goods_cate_model('indexed_cate_tree');
                         $this->tpl_display('goods/goods_attr.html');
                     }
                     else
@@ -277,9 +274,8 @@ class goods_controller extends general_controller
                     $goods_model = new goods_model();
                     if($this->goods = $goods_model->find(array('goods_id' => $goods_id), null, 'goods_id, goods_name, goods_sn'))
                     {
-                        $vcache = new vcache();
-                        $this->cateselect = $vcache->goods_cate_model('indexed_cate_tree');
-                        $this->brandselect = $vcache->brand_model('indexed_list');
+                        $this->cateselect = $GLOBALS['instance']['cache']->goods_cate_model('indexed_cate_tree');
+                        $this->brandselect = $GLOBALS['instance']['cache']->brand_model('indexed_list');
                         $related_model = new goods_related_model();
                         $this->related = $related_model->get_related_goods($goods_id);
                         $this->tpl_display('goods/goods_related.html');
@@ -346,10 +342,9 @@ class goods_controller extends general_controller
                 
                 if($this->rs = $goods_model->find($condition))
                 {
-                    $vcache = new vcache();
-                    $this->cate_select = $vcache->goods_cate_model('indexed_cate_tree');
-                    $this->brand_select = $vcache->brand_model('indexed_list');
-                    $this->opt_type_select = $vcache->goods_optional_type_model('indexed_list');
+                    $this->cate_select = $GLOBALS['instance']['cache']->goods_cate_model('indexed_cate_tree');
+                    $this->brand_select = $GLOBALS['instance']['cache']->brand_model('indexed_list');
+                    $this->opt_type_select = $GLOBALS['instance']['cache']->goods_optional_type_model('indexed_list');
                     //获取商品相册
                     $album_model = new goods_album_model();
                     $this->album_list = $album_model->find_all($condition);

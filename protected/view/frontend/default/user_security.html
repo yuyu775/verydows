@@ -80,6 +80,16 @@ function resetPwd(){
               </div>
             </dd>
           </dl>
+	  <{if !empty($user.oauth_list)}>
+	  <dl>
+            <dt><label>第三方账号：</label></dt>
+            <dd>
+	      <{foreach $user.oauth_list as $v}>
+	      <a class="mr10" title="解除绑定" href="<{url c='user' a='security' step='oauth_unbind' party=$v.party}>"><img src="<{$common.url}>/plugin/oauth/icon/<{$v.party}>.png" border="0" /></a>
+	      <{/foreach}>
+	    </dd>
+          </dl>
+	  <{/if}>
           <dl>
             <dt>上次登录：</dt>
             <dd>

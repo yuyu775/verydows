@@ -76,12 +76,12 @@ function submitApply(e){
                   <td width="80"><a href="<{url c='goods' a='index' id=$goods.goods_id}>"><img src="<{url c='image' a='index' i=$goods.goods_image s='50x50'}>" /></a></td>
                   <td>
                     <p class="aln-l"><a href="<{url c='goods' a='index' id=$goods.goods_id}>"><{$goods.goods_name}></a></p>
+		    <{if !empty($goods.goods_opts)}>
                     <p class="aln-l c999 mt5"><{foreach $goods.goods_opts as $v}><span class="mr5">[<{$v.type}>: <font class="c666"><{$v.opt_text}></font>]</span><{/foreach}></p>
+		    <{/if}>
                   </td>
                   <td class="qty">
-                    <button type="button" onclick="clickQtyBtn('decr')">-</button>
-                    <input name="goods_qty" id="goods_qty" class="aln-c" type="text" value="<{$goods.goods_qty}>" data-max="<{$goods.goods_qty}>" />
-                    <button type="button" onclick="clickQtyBtn('incr')">+</button>
+                    <button type="button" onclick="clickQtyBtn('decr')">-</button><input name="goods_qty" id="goods_qty" class="aln-c" type="text" value="<{$goods.goods_qty}>" data-max="<{$goods.goods_qty}>" /><button type="button" onclick="clickQtyBtn('incr')">+</button>
                   </td>
                   <td><{$goods.goods_price}></td>
                 </tr>
@@ -92,9 +92,9 @@ function submitApply(e){
                 <tr>
                   <th width="120">期望处理类型：</th>
                   <td>
-                    <label><input name="type" type="radio" value="0" checked="checked" />报修</label>
-                    <label class="ml10"><input name="type" type="radio" value="1" />换货</label>
-                    <label class="ml10"><input name="type" type="radio" value="2" />退货</label>
+                    <label><input name="type" type="radio" value="0" checked="checked" /><font class="ml5">报修</font></label>
+                    <label class="ml10"><input name="type" type="radio" value="1" /><font class="ml5">换货</font></label>
+                    <label class="ml10"><input name="type" type="radio" value="2" /><font class="ml5">退货</font></label>
                   </td>
                 </tr>
                 <tr>

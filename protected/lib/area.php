@@ -8,7 +8,7 @@ class area
         $this->area_map = include(INCL_DIR.DS.'area_map.php');
     }
     
-    public function get_all(){ return $this->area_map;}
+    public function get_all(){return $this->area_map;}
     
     public function get_children($province = 0, $city = 0)
     {
@@ -28,7 +28,6 @@ class area
         {
             foreach($map as $k => $v) $children[$k] = $v['name'];
         }
-        
         return $children;
     }
     
@@ -43,6 +42,8 @@ class area
         );
     }
     
+    public function __destruct()
+    {
+        $this->area_map = null;
+    }
 }
-
-?>

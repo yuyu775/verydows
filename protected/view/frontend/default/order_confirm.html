@@ -54,9 +54,8 @@ $(function(){
       $.ajax({
         type: "post",
         dataType: "text",
-        url: "<{url c='order' a='confirm' step='shipping'}>",
+        url: "<{url c='cart' a='confirm' step='shipping'}>",
         data: {'shipping_method':$(this).val(), 'consignee_id':consignee_id},
-        //beforeSend: function(){},
         success: function(data){
           if(data >= 0) {
             $('#shipping_amount').text(data);
@@ -237,7 +236,7 @@ function submitOrder(){
   <div class="parcel cart odmod mt10">
     <div class="th cut">
       <h2 class="fl">包裹清单</h2>
-      <div class="fr"><a title="返回购物车修改" href="<{url c='order' a='cart'}>"><i class="icon"></i></a></div>
+      <div class="fr"><a title="返回购物车修改" href="<{url c='cart' a='index'}>"><i class="icon"></i></a></div>
     </div>
     <div class="module">
       <table width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -318,7 +317,7 @@ function submitOrder(){
     </div>
   </div>
   <!-- 费用总计结束 -->
-  <form method="post" id="order-form" action="<{url c='order' a='confirm' step='submit'}>">
+  <form method="post" id="order-form" action="<{url c='cart' a='confirm' step='submit'}>">
     <input type="hidden" name="consignee_id" data-err="请选择一个收件人地址！" />
     <input type="hidden" name="shipping_method" data-err="请选择一个配送方式！" />
     <input type="hidden" name="payment_method" data-err="请选择一个支付方式！" />

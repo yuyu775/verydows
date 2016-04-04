@@ -4,21 +4,21 @@ class setting_model extends Model
     public $table_name = 'setting';
     
     /**
-     * 获取全部配置
+     * 获取全部设置
      */
     public function get_config()
     {
         $find_all = $this->find_all();
         $config = vds_array_column($find_all, 'sv', 'sk');
         $config['rewrite_rule'] = json_decode($config['rewrite_rule'], TRUE);
+        $config['http_host'] = self::get_http_host();
         $config['goods_img_thumb'] = json_decode($config['goods_img_thumb'], TRUE);
         $config['goods_album_thumb'] = json_decode($config['goods_album_thumb'], TRUE);
-        $config['http_host'] = self::get_http_host();
         return $config;
     }
     
     /**
-     * 更新配置
+     * 更新设置
      */
     public function update_config()
     {
@@ -32,7 +32,9 @@ class setting_model extends Model
      */
     public function get_db_version()
     {
-        return $this->statement_sql('SELECT VERSION()')->fetchColumn();
+        $sth = $this->db_instance($GLOBALS['mysql'], 'master')->prepare('SELECT VERSION()');
+        $sth->execute();
+        return $sth->fetchColumn();
     }
     
     /**

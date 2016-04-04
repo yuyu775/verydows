@@ -6,12 +6,11 @@ class goods_controller extends general_controller
         $id = intval(vds_request('id', 0, 'get'));
         $condition = array('goods_id' => $id);
         $goods_model = new goods_model();
-
         if($goods = $goods_model->find($condition))
         {
             $cate_model = new goods_cate_model();
             $this->breadcrumbs = $cate_model->breadcrumbs($goods['cate_id']);
-            
+            //商品信息
             $this->goods = $goods;
             //商品相册
             $album_model = new goods_album_model();
@@ -25,12 +24,11 @@ class goods_controller extends general_controller
             //关联商品
             $this->related = $goods_model->get_related($id, $GLOBALS['cfg']['goods_related_num']);
             //热销商品
-            $vcache = new vcache();
-            $this->bestseller = $vcache->goods_model('get_bestseller', null, 10, $GLOBALS['cfg']['data_cache_lifetime']);
+            $this->bestseller = $GLOBALS['instance']['cache']->goods_model('get_bestseller', null, 10, $GLOBALS['cfg']['data_cache_lifetime']);
             //保存浏览历史
             self::set_history($id);
             
-            parent::tpl_display('goods.html');
+            $this->tpl_display('goods.html');
         }
         else
         {
@@ -59,12 +57,9 @@ class goods_controller extends general_controller
         $this->history = $goods_model->get_history();
         $this->u = $conditions;
         
-        parent::tpl_display('search.html');
+        $this->tpl_display('search.html');
     }
     
-    /**
-     * 设置搜索筛选项
-     */
     private static function set_search_filters($kw)
     {
         $filters = array();
@@ -124,10 +119,6 @@ class goods_controller extends general_controller
         return $filters;
     }
     
-    /**
-     * 设置商品浏览历史
-     * @param  $goods_id  商品ID
-     */
     private static function set_history($goods_id, $num = 20)
     {
         if($history = vds_request('vds_history', null, 'cookie'))

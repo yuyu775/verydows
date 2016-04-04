@@ -92,7 +92,7 @@ switch($step)
             }
             $sql = '';
         }
-        $encrypt_key = md5(str_shuffle(uniqid(rand(0, 999), TRUE)));
+        $encrypt_key = md5(str_shuffle(uniqid(rand(), TRUE)));
         $dbh->exec("INSERT INTO `{$db_table_pre}setting` VALUES ('encrypt_key', '{$encrypt_key}')");
         
         $admin_password = md5($admin_password);

@@ -30,7 +30,7 @@ $(function(){
 });
 
 function viewUserbar(){
-  $.getJSON(hostUrl+"/index.php?c=user&a=login&step=infobar", function(data){
+  $.getJSON(hostUrl+"/index.php?c=user&a=info", function(data){
     if(data.status == 1){
       var container = $('#login-userbar'), html = juicer($('#logininfo-tpl').html(), data.info);
       container.empty().append(html);
@@ -49,7 +49,7 @@ function viewUserbar(){
 function viewCartbar(){
   $.ajax({
     type: 'post',
-    url: hostUrl+"/index.php?c=order&a=cart&step=bar",
+    url: hostUrl+"/index.php?c=cart&a=index&step=bar",
     beforeSend:function(){$("#cartbar").find('img').removeClass('hide');$("#cartbar").find('font').addClass('hide');},	
     success: function(data){
       $("#cartbar").find('img').addClass('hide').next('font').removeClass('hide').next('b').text(data);

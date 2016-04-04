@@ -7,6 +7,8 @@ class general_controller extends Controller
     public function init()
     {
         self::auto_task();
+        if(empty($GLOBALS['instance']['cache'])) $GLOBALS['instance']['cache'] = new vcache();
+        if(empty($GLOBALS['instance']['layout'])) $GLOBALS['instance']['layout'] = new layout();
         $this->common = array
         (
             'site_name' => $GLOBALS['cfg']['site_name'],
@@ -17,7 +19,7 @@ class general_controller extends Controller
 
     protected function tpl_display($tpl_name)
     {
-        parent::display('frontend'.DS.$GLOBALS['cfg']['enabled_theme'].DS.$tpl_name);
+        $this->display('frontend'.DS.$GLOBALS['cfg']['enabled_theme'].DS.$tpl_name);
     }
     
     protected function prompt($type = null, $text = '', $redirect = null, $time = 3)
@@ -28,8 +30,8 @@ class general_controller extends Controller
         $this->tpl_display('prompt.html');
         exit;
     }
-    
-    protected function check_acl($async = 0)
+
+    protected function is_logged($async = 0)
     {
         if(empty($_SESSION['user']['user_id']))
         {

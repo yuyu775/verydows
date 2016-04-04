@@ -14,7 +14,7 @@ function cancelOrder(e, order_id){
     text: '您确定要取消该订单吗?',
     top: -25,
     confirmed: function(){
-      window.location.href= "<{url c='user' a='order' step='cancel'}>&id="+order_id;
+      window.location.href= hostUrl+"/index.php?c=order&a=cancel&id="+order_id;
     },
   });
 }
@@ -51,7 +51,7 @@ function cancelOrder(e, order_id){
               <tr>
                 <th colspan="4">
                   <div class="fl aln-l cut">订单号：<b><{$v.order_id}></b><span class="sep"></span>下单日期：<b><{date('Y-m-d', $v.created_date)}></b></div>
-                  <div class="fr"><a href="<{url c='user' a='order' step='view' id=$v.order_id}>">订单详情</a></div>
+                  <div class="fr"><a href="<{url c='order' a='view' id=$v.order_id}>">订单详情</a></div>
                 </th>
               </tr>
               <tr>
@@ -71,7 +71,7 @@ function cancelOrder(e, order_id){
                   <{/foreach}>
                 </td>
                 <td width="120"><p><font class="cny">¥</font> <{$v.order_amount}></p><p class="mt5 c999">(含运费：<font class="cny">¥</font> <{$v.shipping_amount}>)</p></td>
-                <td width="120"><{$payment_method_list[$v.payment_method]['name']}></td>
+                <td width="120"><{$payment_map[$v.payment_method]['name']}></td>
                 <td width="120">
                   <{if $v.order_status == 1}>
                   <{if $v.payment_method != 2}>
@@ -79,14 +79,14 @@ function cancelOrder(e, order_id){
                   <{/if}>
                   <p class="mt10"><button type="button" class="sm-gray btn" onclick="cancelOrder(this, '<{$v.order_id}>')">取消订单</button></p>
                   <{elseif $v.order_status == 3}>
-                  <p><a class="sm-red btn" href="<{url c='user' a='order' step='delivered' id=$v.order_id}>">签收</a></p>
+                  <p><a class="sm-red btn" href="<{url c='order' a='delivered' id=$v.order_id}>">签收</a></p>
                   <{elseif $v.order_status == 4}>
                   <p><a class="sm-blue btn" href="<{url c='review' a='order' order_id=$v.order_id}>">评价</a></p>
                   <p class="mt10"><a class="sm-gray btn" href="<{url c='aftersales' a='order' order_id=$v.order_id}>">售后</a></p>
                   <{elseif $v.order_status == 0}>
-                  <p><a class="sm-blue btn" href="<{url c='user' a='order' step='rebuy' id=$v.order_id}>">重新购买</a></p>
+                  <p><a class="sm-blue btn" href="<{url c='order' a='rebuy' id=$v.order_id}>">重新购买</a></p>
                   <{else}>
-                  <p><a class="sm-blue btn" href="<{url c='user' a='order' step='view' id=$v.order_id}>">查看</a></p>
+                  <p><a class="sm-blue btn" href="<{url c='order' a='view' id=$v.order_id}>">查看</a></p>
                   <{/if}>
                 </td>
               </tr>
@@ -94,7 +94,7 @@ function cancelOrder(e, order_id){
           </div>
           <{/foreach}>
           <{if !empty($order_list.paging)}>
-          <div class="aln-c mt10 pad10 cut"><{layout_paging paging=$order_list.paging class='paging small' c='user' a='order'}></div>
+          <div class="aln-c mt10 pad10 cut"><{layout_paging paging=$order_list.paging class='paging small' c='order' a='index'}></div>
           <{/if}> </div>
         <{else}>
         <div class="pad10 aln-c c999">暂无任何订单记录</div>

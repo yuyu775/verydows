@@ -1,28 +1,19 @@
 <?php
-class alipay extends payment_plugin
+/**
+ * Alipay Payment
+ * @author Cigery
+ */
+class alipay extends abstract_payment
 {
-    private function set_config()
+    public function create_pay_url(&$order)
     {
-        $config = json_decode($this->plugin_parms, TRUE);
-        return array
-        (
-            'partner'        => $config['partner'], //合作身份者id，以2088开头的16位纯数字
-            'seller_email'   => $config['seller_email'], //收款支付宝账号
-            'key'            => $config['key'], //安全检验码，以数字和字母组成的32位字符
-            'service'        => 'trade_create_by_buyer',
-        );
-    }
-    
-    public function get_request_res($order)
-    {
-        $config = $this->set_config();
-        //请求参数
+        $gateway = 'https://mapi.alipay.com/gateway.do?';
         $params = array
         (
-            'service'        => 'trade_create_by_buyer',
-            'partner'        => $config['partner'],
-            'seller_email'   => $config['seller_email'],
-            'payment_type'   => '1', //支付类型
+            'service'        => 'create_direct_pay_by_user',
+            'partner'        => $this->config['partner'],
+            'seller_email'   => $this->config['seller_email'],
+            'payment_type'   => '1',
             'notify_url'     => $this->notify_callback,
             'return_url'     => $this->return_callback,
             'out_trade_no'   => $order['order_id'],
@@ -32,8 +23,8 @@ class alipay extends payment_plugin
             '_input_charset' => 'utf-8',
             'transport'      => 'http',
         );
-
-        return $this->create_pay_url($params);
+        
+        return $gateway. $this->set_params($params);
     }
     
     public function get_server_res($args)
@@ -53,7 +44,7 @@ class alipay extends payment_plugin
     {
         if($this->check_sign($args))
         {
-            $prompt = array('success', '付款成功', url('user', 'order', array('step' => 'view', 'id' => $args['out_trade_no'])));
+            $prompt = array('success', '付款成功', url('order', 'view', array('id' => $args['out_trade_no'])));
         }
         else
         {
@@ -62,23 +53,18 @@ class alipay extends payment_plugin
         return $prompt;
     }
     
-    private function create_pay_url($params)
+    private function set_params($params)
     {
-        $gateway = 'https://mapi.alipay.com/gateway.do?';
         ksort($params);
         $args = $sign = '';
-        
         foreach($params as $k => $v)
         {
             $args .= $k.'='.urlencode($v).'&';
             $sign .= $k.'='.$v.'&';
         }
         $args = substr($args, 0, strlen($args) - 1);
-        
-        $config = $this->set_config();
-        $sign = md5(substr($sign, 0, strlen($sign) - 1) . $config['key']);
-        
-        return $gateway . $args . '&sign='. $sign . '&sign_type=MD5';
+        $sign = md5(substr($sign, 0, strlen($sign) - 1) . $this->config['key']);
+        return $args . '&sign='. $sign . '&sign_type=MD5';
     }
     
     private function check_sign($args)
@@ -102,6 +88,4 @@ class alipay extends payment_plugin
         if($sign == md5($args_str)) return TRUE;
         return FALSE;
     }
-
 }
-?>

@@ -54,7 +54,9 @@ function deleteService(e){
       </p>
       <div class="mt5 x-auto as-srow">
         <p><a class="blue" href="<{url c='goods' a='index' id=$rs.goods_id}>"><{$rs.goods_name}></a></p>
+	<{if !empty($rs.goods_opts)}>
         <p class="c999 mt5"><{foreach $rs.goods_opts as $v}><span class="mr5">[<{$v.type}>: <font class="c666"><{$v.opt_text}></font>]</span><{/foreach}></p>
+	<{/if}>
         <p class="c999 mt5">数量：<{$rs.goods_qty}></p>
       </div>
       <p class="mt10">申请了售后服务</p> 

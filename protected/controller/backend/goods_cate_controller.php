@@ -106,10 +106,7 @@ class goods_cate_controller extends general_controller
             }
         }
     }
-    
-    /*----------------------------------------- */
-    /* 删除商品分类
-    /*----------------------------------------- */
+
     public function action_delete()
     {
         $id = vds_request('id');

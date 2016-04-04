@@ -38,8 +38,6 @@ class goods_review_model extends Model
     
     /**
      * 获取用户评价
-     * @param $user_id 用户ID
-     * @param $page_id 页码
      */
     public function get_user_reviews($user_id, $page_id)
     {
@@ -54,7 +52,7 @@ class goods_review_model extends Model
                            b.goods_id, b.goods_name, b.goods_image
                     FROM {$this->table_name} AS a
                     LEFT JOIN {$GLOBALS['mysql']['MYSQL_DB_TABLE_PRE']}order_goods AS b
-                    ON a.goods_id = b.goods_id
+                    ON a.goods_id = b.goods_id AND a.order_id = b.order_id
                     WHERE a.user_id = {$user_id}
                     ORDER BY a.created_date DESC
                     {$limit}
@@ -64,5 +62,4 @@ class goods_review_model extends Model
         }
         return $results;
     }
-    
 }

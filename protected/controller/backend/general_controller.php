@@ -8,6 +8,7 @@ class general_controller extends Controller
         $this->MOD = substr(strrchr(dirname(__FILE__), DS), 1);
         $acl = new acl($this->MOD);
         $acl->check();
+        if(empty($GLOBALS['instance']['cache'])) $GLOBALS['instance']['cache'] = new vcache();
     }
     
     protected function tpl_display($tpl_name)

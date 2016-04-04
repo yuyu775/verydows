@@ -46,17 +46,16 @@
               <{foreach $feedback_list.rows as $v}>
               <tr>
                 <td><p class="aln-l pad5"><{$v.subject}></p></td>
-                <td><{$feedback_list.type_map[$v.type]}></td>
+                <td><{$type_map[$v.type]}></td>
                 <td><{date('Y-m-d H:i:s', $v.created_date)}></td>
-                <td><a href="<{url c='feedback' a='details' id=$v.fb_id}>">查看详细</a></td>
+                <td><a href="<{url c='feedback' a='view' id=$v.fb_id}>">查看详细</a></td>
               </tr>
               <{/foreach}>
             </table>
           </div>
-          <div class="mt20 ml10"><a class="sm-blue" href="<{url c='feedback' a='apply'}>">咨询反馈</a></div>
           <{if !empty($feedback_list.paging)}>
           <!-- 页码开始 -->
-          <div class="module aln-c mt10 cut"><{layout_paging paging=$feedback_list.paging class='paging small' c='user' a='feedback'}></div>
+          <div class="module aln-c mt10 cut"><{layout_paging paging=$feedback_list.paging class='paging small' c='feedback' a='index'}></div>
           <!-- 页码结束 -->
           <{/if}>
         </div>
@@ -64,6 +63,7 @@
         <div class="pad10 aln-c c999">暂无咨询反馈记录</div>
         <{/if}>
       </div>
+      <div class="mt20 ml10"><a class="sm-blue" href="<{url c='feedback' a='apply'}>">咨询反馈</a></div>
     </div>
     <!-- 右侧结束 -->
   </div>

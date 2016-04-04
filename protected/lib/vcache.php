@@ -3,29 +3,28 @@ class vcache
 {
     private $path;
     
-    function __construct($path = null)
+    public function __construct($path = null)
     {
-        if($path == null) $this->path = APP_DIR. DS. 'protected'. DS . 'cache' . DS . 'data'. DS; else $this->path = $path;
+        $this->path = $path == null? APP_DIR.DS.'protected'.DS.'cache'.DS.'data'.DS : $path;
     }
     
-    //$obj:类名, $args[0]:方法名, $args[1]:方法参数, $args[2]:缓存时间
-    function __call($obj, $args)
+    public function __call($class, $args)
     {
         if(empty($args[1])) 
         {
             $args[1] = array();
-            $key = $obj . $args[0];
+            $key = $class . $args[0];
         }
         else
         {
-            $key = $obj . $args[0] . serialize($args[1]);
+            $key = $class . $args[0] . serialize($args[1]);
         }
         if(!isset($args[2])) $args[2] = FALSE;
         if($args[2] == -1) return $this->clear($key);
         $cache = $this->get($key, $args[2]);
         if(FALSE == $cache)
         {
-            $obj = new $obj;
+            $obj = new $class;
             $data = call_user_func_array(array($obj, $args[0]), $args[1]);
             $this->set($key, $data);
             return $data;
@@ -69,16 +68,9 @@ class vcache
     
     public function clear($key = NULL)
     {
-        if($key != NULL)
-        {
-            return @unlink($this->named($key));
-        }
-        else
-        {
-            $return = FALSE;
-            foreach(glob($this->path . '*') as $cache) $return = @unlink($cache);
-            return $return;
-        }
+        if($key != NULL) return @unlink($this->named($key));
+        $return = FALSE;
+        foreach(glob($this->path . '*') as $cache) $return = @unlink($cache);
+        return $return;
     }
 }
-?>

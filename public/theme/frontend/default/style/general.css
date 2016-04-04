@@ -70,7 +70,7 @@ a.btn, button.btn {display:inline-block;display:-moz-inline-stack;*display:inlin
 .sm-green:hover {color:#FFCC33;background:#779832;text-decoration:none;}
 .sm-red {color:#ffffcc;padding:5px 15px;background:#cc0000;border:1px solid #CC0033;}
 .sm-red:hover {color:#fff;background:#990000;text-decoration:none;border-color:#930000}
-.sm-gen {color:#4A839D;padding:4px 8px;background:#EDF2F5;border:1px solid #9ABAD1;border-bottom-color:#4D85A0;border-right-color:#4D85A0;}
+.sm-gen {color:#4A839D;padding:4px 8px;line-height:14px;background:#EDF2F5;border:1px solid #9ABAD1;border-bottom-color:#4D85A0;border-right-color:#4D85A0;}
 .sm-gen:hover {background:#EDFCF5;text-decoration:none}
 .close i {width:14px;height:14px;background-position:-90px -180px;cursor:pointer}
 .close:hover i {background-position:-110px -180px;}

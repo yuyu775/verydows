@@ -1,43 +1,40 @@
 <?php
 class db_tool
 {
-    public $error = '';
-    
     public function export($tables = array(), $save_dir = null, $save_name = null)
     {
         if(empty($save_dir)) $save_dir = APP_DIR.DS.'protected'.DS.'resources'.DS.'backup';
         if(!is_writable($save_dir))
         {
-            $this->error = '备份目录不存在或目录无写入权限';
+            err("Err: Backup directory is not writable or does not exists");
             return FALSE;
         }
         
         $model = new Model();
-        
-        $db_version = $model->statement_sql('SELECT VERSION()')->fetchColumn();
+        $sth = $model->db_instance($GLOBALS['mysql'], 'master');
+        $db_version = $sth->query('SELECT VERSION()')->fetchColumn();
         $content  = "# -------------------------------------------------------------\n";
         $content .= "# <?php die();?>\n";
         $content .= "# Verydows Database Backup\n";
-        $content .= "# Program: Verydows ". VDS_VERSION . " Release " . VDS_RELEASE . "\n";
+        $content .= "# Program: Verydows ". $GLOBALS['verydows']['VERSION'] . " Release " . $GLOBALS['verydows']['RELEASE'] . "\n";
         $content .= "# MySql: {$db_version} \n";
         $content .= "# Database: {$GLOBALS['mysql']['MYSQL_DB']} \n";
-	    $content .= "# Creation: " . date('Y-m-d H:i:s') . "\n";
+        $content .= "# Creation: " . date('Y-m-d H:i:s') . "\n";
         $content .= "# Official: http://www.verydows.com\n";
-	    $content .= "# -------------------------------------------------------------\n\n";
+        $content .= "# -------------------------------------------------------------\n\n";
         
         if(empty($tables))
         {
-            $tables = $model->statement_sql("SHOW TABLES LIKE '{$GLOBALS['mysql']['MYSQL_DB_TABLE_PRE']}%'")->fetchAll(PDO::FETCH_NUM);
+            $tables = $sth->query("SHOW TABLES LIKE '{$GLOBALS['mysql']['MYSQL_DB_TABLE_PRE']}%'")->fetchAll(PDO::FETCH_NUM);
             $tables = vds_array_column($tables, 0);
         }
         
         foreach($tables as $table)
         {
-            $create = $model->statement_sql("SHOW CREATE TABLE {$table}")->fetch(PDO::FETCH_NUM);
+            $create = $sth->query("SHOW CREATE TABLE {$table}")->fetch(PDO::FETCH_NUM);
             $content .= "DROP TABLE IF EXISTS `{$table}`;\n{$create[1]};\n\n";
-            
             $values = '';
-            $rows_query = $model->statement_sql("SELECT * FROM {$table}");
+            $rows_query = $sth->query("SELECT * FROM {$table}");
             while($row = $rows_query->fetch(PDO::FETCH_NUM)) $values .= "\n('" . implode("','", array_map('addslashes', $row)) . "'),";
             if($values != '') $content .= "INSERT INTO `{$table}` VALUES" . rtrim($values, ",") . ";\n\n\n";
         }
@@ -46,7 +43,7 @@ class db_tool
         
         if(file_put_contents($save_dir.DS.$save_name, $content) === FALSE)
         {
-            $this->error = '备份失败';
+            err("Err: Backup Failed");
             return FALSE;
         }
 
@@ -58,7 +55,6 @@ class db_tool
         if(file_exists($file))
         {
             $model = new Model();
-            
             $streams = str_replace("\r", "\n", file_get_contents($file));
             $line_array = preg_split("/\n/", $streams);
             $sql = '';
@@ -78,8 +74,7 @@ class db_tool
             return TRUE;
         }
         
-        $this->error = '数据库文件不存在';
+        err("Err: Backup file does not exists");
         return FALSE;
     }
-
 }

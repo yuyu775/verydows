@@ -114,8 +114,8 @@ class file_controller extends general_controller
             
             $oldname = str_replace('/', DS, $oldname);
             $newname = str_replace('/', DS, $newname);
-            if (rename($oldname, $newname)) $this->prompt('success', '文件重命名成功');
-            else $this->prompt('success', '文件重命名失败');
+            if(rename($oldname, $newname)) $this->prompt('success', '文件重命名成功');
+            $this->prompt('error', '文件重命名失败');
         }
         else
         {
@@ -126,7 +126,6 @@ class file_controller extends general_controller
     public function action_delete()
     {
         $path = vds_request('path', '', 'post');
-        
         if(is_array($path) && !empty($path))
         {
             $root = 'upload/';
@@ -149,12 +148,12 @@ class file_controller extends general_controller
                 }
             }
             
-            if(empty($error)) $this->prompt('success', '删除文件成功'); else $this->prompt('error', $error);
+            if(empty($error)) $this->prompt('success', '删除文件成功');
+            $this->prompt('error', $error);
         }
         else
         {
             $this->prompt('error', '获取文件路径错误');
         }
     }
-    
 }

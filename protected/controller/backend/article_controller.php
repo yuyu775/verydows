@@ -60,8 +60,7 @@ class article_controller extends general_controller
         }
         else
         {
-            $vcache = new vcache();
-            $this->cateselect = $vcache->article_cate_model('indexed_list');
+            $this->cateselect = $GLOBALS['instance']['cache']->article_cate_model('indexed_list');
             $this->tpl_display('article/article_list.html');
         }
     }
@@ -111,8 +110,7 @@ class article_controller extends general_controller
         }
         else
         {
-            $vcache = new vcache();
-            $this->cateselect = $vcache->article_cate_model('indexed_list');
+            $this->cateselect = $GLOBALS['instance']['cache']->article_cate_model('indexed_list');
             $this->tpl_display('article/article.html');
         }
     }
@@ -167,8 +165,7 @@ class article_controller extends general_controller
             $article_model = new article_model();
             if($this->rs = $article_model->find(array('id' => $id)))
             {
-                $vcache = new vcache();
-                $this->cateselect = $vcache->article_cate_model('indexed_list');
+                $this->cateselect = $GLOBALS['instance']['cache']->article_cate_model('indexed_list');
                 $this->tpl_display('article/article.html');
             }
             else

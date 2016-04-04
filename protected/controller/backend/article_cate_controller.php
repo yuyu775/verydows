@@ -3,8 +3,7 @@ class article_cate_controller extends general_controller
 {
     public function action_index()
     {
-        $vcache = new vcache();
-        $this->results = $vcache->article_cate_model('indexed_list');
+        $this->results = $GLOBALS['instance']['cache']->article_cate_model('indexed_list');
         $this->tpl_display('article/article_cate_list.html');
     }
 
@@ -96,7 +95,6 @@ class article_cate_controller extends general_controller
     //清除缓存
     private static function clear_cache()
     {
-        $vcache = new vcache();
-        $vcache->article_cate_model('indexed_list', null, -1);
+        $GLOBALS['instance']['cache']->article_cate_model('indexed_list', null, -1);
     }
 }

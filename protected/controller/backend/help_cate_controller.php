@@ -3,8 +3,7 @@ class help_cate_controller extends general_controller
 {
     public function action_index()
     {
-        $vcache = new vcache();
-        $this->results = $vcache->help_cate_model('indexed_list');
+        $this->results = $GLOBALS['instance']['cache']->help_cate_model('indexed_list');
         $this->tpl_display('article/help_cate_list.html');
     }
     
@@ -97,8 +96,7 @@ class help_cate_controller extends general_controller
     //清除缓存
     private static function clear_cache()
     {
-        $vcache = new vcache();
-        $vcache->help_cate_model('indexed_list', null, -1);
-        $vcache->help_model('cated_help_list', null, -1);
+        $GLOBALS['instance']['cache']->help_cate_model('indexed_list', null, -1);
+        $GLOBALS['instance']['cache']->help_model('cated_help_list', null, -1);
     }
 }

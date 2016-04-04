@@ -22,8 +22,7 @@ class order_shipping_controller extends general_controller
             
             if(!empty($list))
             {
-                $vcache = new vcache();
-                $carrier_list = $vcache->shipping_carrier_model('indexed_list');
+                $carrier_list = $GLOBALS['instance']['cache']->shipping_carrier_model('indexed_list');
                 foreach($list as $k => $v)
                 {
                     $list[$k]['carrier_name'] = $carrier_list[$v['carrier_id']]['name'];

@@ -110,7 +110,6 @@ class nav_controller extends general_controller
     //清除缓存
     private static function clear_cache()
     {
-        $vcache = new vcache();
-        $vcache->nav_model('get_site_nav', null, -1);
+        $GLOBALS['instance']['cache']->nav_model('get_site_nav', null, -1);
     }
 }

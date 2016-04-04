@@ -5,8 +5,6 @@ class order_goods_model extends Model
      
     /**
      * 添加订单商品数据
-     * @param 订单号
-     * @param 订单商品
      */
     public function add_records($order_id, $goods_list)
     {
@@ -30,8 +28,6 @@ class order_goods_model extends Model
     
     /**
      * 重置商品库存
-     * @param $order_id 商品ID
-     * @param $method 增加还是减少
      */
     public function restocking($order_id, $method = 'incr')
     {
@@ -44,7 +40,7 @@ class order_goods_model extends Model
     {
         if($results = $this->find_all(array('order_id' => $order_id)))
         {
-            foreach($results as $k => $v) if(!empty($v['goods_opts'])) $results[$k]['goods_opts'] = json_decode($v['goods_opts'], TRUE);
+            foreach($results as $k => $v) $results[$k]['goods_opts'] = !empty($v['goods_opts']) ? json_decode($v['goods_opts'], TRUE) : array();
         }
         return $results;
     }

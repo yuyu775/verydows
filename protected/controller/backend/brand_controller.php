@@ -3,8 +3,7 @@ class brand_controller extends general_controller
 {
     public function action_index()
     {
-        $vcache = new vcache();
-        $this->results = $vcache->brand_model('indexed_list');
+        $this->results = $GLOBALS['instance']['cache']->brand_model('indexed_list');
         $this->tpl_display('goods/brand_list.html');
     }
     
@@ -132,7 +131,6 @@ class brand_controller extends general_controller
     //清除缓存
     private static function clear_cache()
     {
-        $vcache = new vcache();
-        $vcache->brand_model('indexed_list', null, -1);
+        $GLOBALS['instance']['cache']->brand_model('indexed_list', null, -1);
     }
 }

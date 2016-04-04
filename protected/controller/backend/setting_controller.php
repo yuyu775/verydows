@@ -166,8 +166,8 @@ class setting_controller extends general_controller
     public function action_test_sendmail()
     {
         include(APP_DIR.DS.'plugin'.DS.'phpmailer'.DS.'PHPMailerAutoload.php');
-        $smtp_user = trim(vds_request('smtp_user', '', 'post'));
         $mailer = new PHPMailer();
+        $smtp_user = trim(vds_request('smtp_user', '', 'post'));
         $mailer->isSMTP();
         $mailer->CharSet = 'UTF-8';
         $mailer->SMTPAuth = TRUE;                 
@@ -181,7 +181,6 @@ class setting_controller extends general_controller
         $mailer->isHTML(FALSE);
         $mailer->Subject = "来自{$GLOBALS['cfg']['site_name']}的测试邮件";
         $mailer->Body = '当您的邮箱收到此封邮件，说明邮件服务器连接正常，可以正常使用邮件发送功能。';
-        
         if(!$mailer->send()) echo $mailer->ErrorInfo; else echo 'success';
     }
     

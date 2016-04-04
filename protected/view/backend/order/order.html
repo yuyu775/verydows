@@ -43,13 +43,13 @@ function closeOperate(pop_id){
             <th>运费</th>
             <td><{$order.shipping_amount}> 元</td>
             <th>支付方式</th>
-            <td><{$payment_method_list[$order.payment_method]['name']}></td>
+            <td><{$order.payment_method_name}></td>
           </tr>
           <tr>
             <th>订单状态</th>
             <td><{if $order.order_status == 0}><b class="red"><{$status_map[$order.order_status]}></b><{else}><{$status_map[$order.order_status]}><{/if}></td>
             <th>配送方式</th>
-            <td><{$shipping_method_list[$order.shipping_method]['name']}></td>
+            <td><{$order.shipping_method_name}></td>
           </tr>
           <tr>
             <th>付款时间</th>
@@ -69,7 +69,7 @@ function closeOperate(pop_id){
               </div>
               <{if $order.order_status == 1 || $order.order_status == 2}>
               <p class="mt10"><a class="mbtn btn" onclick="popOperate('pop-consignee')">修改</a></p>
-              <{include file='backend'.DS.'order'.DS.'operate_consignee.html'}>
+              <{include file='backend/order/operate_consignee.html'}>
               <{/if}>
             </td>
 	    <th>下单备注</th>
@@ -104,17 +104,17 @@ function closeOperate(pop_id){
     <div class="bw-row mt5 pad10 ta-c cut">
       <{if $order.order_status == 1}>
       <button type="button" class="cbtn btn ml20 mr20" onclick="popOperate('pop-amount')">更改订单金额</button>
-      <{include file='backend'.DS.'order'.DS.'operate_amount.html'}>
+      <{include file='backend/order/operate_amount.html'}>
       <button type="button" class="cbtn btn ml20 mr20" onclick="popOperate('pop-cancel')">取消交易</button>
-      <{include file='backend'.DS.'order'.DS.'operate_cancel.html'}>
+      <{include file='backend/order/operate_cancel.html'}>
       <{/if}>
-      <{if $order.order_status == 2 || ($order.order_status == 1 && $order.payment_method == 2)}>
+      <{if $order.order_status > 1 || ($order.order_status > 0 && $order.payment_method == 2)}>
       <button type="button" class="cbtn btn ml20 mr20" onclick="popOperate('pop-shipping')">发货配送</button>
-      <{include file='backend'.DS.'order'.DS.'operate_shipping.html'}>
+      <{include file='backend/order/operate_shipping.html'}>
       <{/if}>
       <{if $order.order_status == 0}>
       <button type="button" class="cbtn btn ml20 mr20" onclick="popOperate('pop-resume')">恢复交易</button>
-      <{include file='backend'.DS.'order'.DS.'operate_resume.html'}>
+      <{include file='backend/order/operate_resume.html'}>
       <script type="text/javascript">
         function deleteOrder(e){
           $(e).vdsConfirm({
@@ -130,7 +130,7 @@ function closeOperate(pop_id){
       <button type="button" class="cbtn btn ml20 mr20" onclick="deleteOrder(this)">删除</button>
       <{/if}>
     </div>
-    <{if !empty($shipping_list)}>
+    <{if !empty($shipped_list)}>
     <div class="bw-row mt5 pad10 c666 cut">
       <table class="datalist">
         <tr>
@@ -139,9 +139,9 @@ function closeOperate(pop_id){
           <th width="150">发货日期</th>
           <th class="ta-l">备注</th>
         </tr>
-        <{foreach $shipping_list as $v}>
+        <{foreach $shipped_list as $v}>
         <tr>
-          <td><{$shipping_carrier_list[$v.carrier_id]['name']}></td>
+          <td><{$carrier_list[$v.carrier_id]['name']}></td>
           <td><{$v.tracking_no}></td>
           <td><{date('Y-m-d H:i:s', $v.dateline)}></td>
           <td class="ta-l"><{if !empty($v.memos)}><{$v.memos}><{else}><font class="c999">无</font><{/if}></td>

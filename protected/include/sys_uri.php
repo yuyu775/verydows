@@ -46,6 +46,16 @@ return array
     
     array
     (
+        'name' => '系统应用',
+        'uri' => array
+        (
+            'oauth@index' => '查看授权登录列表',
+            'oauth@edit' => '设置授权登录配置',
+        ),
+    ),
+    
+    array
+    (
         'name' => '系统工具',
         'uri' => array
         (
@@ -207,4 +217,3 @@ return array
         ),
     ),
 );
-

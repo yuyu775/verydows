@@ -73,11 +73,11 @@ $(function(){
               </tr>
               <{foreach $order_list as $v}>
               <tr>
-                <td class="aln-l"><a href="<{url c='user' a='order' step='view' id=$v.order_id}>"><{$v.order_id}></a></td>
+                <td class="aln-l"><a href="<{url c='order' a='view' id=$v.order_id}>"><{$v.order_id}></a></td>
                 <td class="aln-l"><font class="cny">¥</font> <{$v.order_amount}></td>
                 <td><{$v.progress}></td>
                 <td><{date('Y-m-d', $v.created_date)}></td>
-                <td><a href="<{url c='user' a='order' step='details' id=$v.order_id}>">查看</a></td>
+                <td><a href="<{url c='order' a='view' id=$v.order_id}>">查看</a></td>
               </tr>
               <{/foreach}>
             </table>
@@ -89,7 +89,7 @@ $(function(){
         <!-- 最近订单结束 -->
         <!-- 最近收藏开始 -->
         <div class="w658 mt10 cut">
-          <h2><a href="<{url c='user' a='favorite'}>" class="fr">查看全部收藏</a>近期收藏</h2>
+          <h2><a href="<{url c='favorite' a='index'}>" class="fr">查看全部收藏</a>近期收藏</h2>
           <{if !empty($favorite_list)}>
           <div class="tli">
             <table width="100%" border="0" cellpadding="0" cellspacing="0">

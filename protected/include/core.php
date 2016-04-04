@@ -4,6 +4,11 @@ set_error_handler("_err_handle");
 require(INCL_DIR.DS.'func_common.php');
 $GLOBALS = require(APP_DIR.DS.'protected'.DS.'config.php');
 $GLOBALS['cfg'] = require(APP_DIR.DS.'protected'.DS.'setting.php');
+$GLOBALS['cfg']['rewrite_rule'] = array
+(
+    'pay/callback/<pmode>/<pcode>' => 'pay/callback',
+    'oauth/callback/<party>' => 'oauth/callback',
+) + $GLOBALS['cfg']['rewrite_rule'];
 
 if($GLOBALS['cfg']['debug']){
 	error_reporting(-1);
@@ -39,8 +44,6 @@ if(!empty($GLOBALS['cfg']['rewrite_enable']) && strpos($_SERVER['REQUEST_URI'], 
 	}
 }
 
-session_start();
-
 $_REQUEST = array_merge($_POST, $_GET);
 $__module     = isset($_REQUEST['m']) ? strtolower($_REQUEST['m']) : '';
 $__controller = isset($_REQUEST['c']) ? strtolower($_REQUEST['c']) : 'main';
@@ -57,7 +60,7 @@ function inner_autoload($class){
 	GLOBAL $__module;
 	foreach(array('model', 'lib', 'controller'.(empty($__module)?'':DS.$__module)) as $dir){
 		$file = APP_DIR.DS.'protected'.DS.$dir.DS.$class.'.php';
-		if(file_exists($file)){
+		if(is_file($file)){
 			include $file;
 			return;
 		}
@@ -70,6 +73,7 @@ function inner_autoload($class){
 		}
 	}
 }
+session_start();
 
 $controller_name = $__controller.'_controller';
 $action_name = 'action_'.$__action;
@@ -166,9 +170,6 @@ class Controller{
 class Model{
 	public $page;
     public $table_name;
-	
-	protected $_master_db;
-	protected $_slave_db;
 	protected $sql = array();
 	
 	public function __construct($table_name = null){
@@ -226,7 +227,7 @@ class Model{
             $marks[] = ":".$k;
         }
 		$this->execute("INSERT INTO ".$this->table_name." (".implode(', ', $keys).") VALUES (".implode(', ', $marks).")", $values);
-		return $this->_master_db->lastInsertId();
+		return $this->db_instance($GLOBALS['mysql'], 'master')->lastInsertId();
 	}
 	
 	public function find_count($conditions = array()){
@@ -278,56 +279,30 @@ class Model{
     }
 	
 	public function query($sql, $params = array()){return $this->execute($sql, $params, true);}
-	public function execute($sql, $params = array(), $is_query = false){
+	public function execute($sql, $params = array(), $readonly = false){
 		$this->sql[] = $sql;
-		if($is_query && is_object($this->_slave_db)){
-			$sth = $this->_slave_db->prepare($sql);
+		if($readonly && !empty($GLOBALS['mysql']['MYSQL_SLAVE'])){
+			$slave_key = array_rand($GLOBALS['mysql']['MYSQL_SLAVE']);
+			$sth = $this->db_instance($GLOBALS['mysql']['MYSQL_SLAVE'][$slave_key], 'slave_'.$slave_key)->prepare($sql);
 		}else{
-			if(!is_object($this->_master_db))$this->set_db('default');
-			$sth = $this->_master_db->prepare($sql);
+			$sth = $this->db_instance($GLOBALS['mysql'], 'master')->prepare($sql);
 		}
-		if(!empty($params)){
+		
+		if(is_array($params) && !empty($params)){
 			foreach($params as $k=>&$v) $sth->bindParam($k, $v);
 		}
-		if($sth->execute()) return $is_query ? $sth->fetchAll(PDO::FETCH_ASSOC) : $sth->rowCount();
+		if($sth->execute())return $readonly ? $sth->fetchAll(PDO::FETCH_ASSOC) : $sth->rowCount();
 		$err = $sth->errorInfo();
 		err('Database SQL: "' . $sql. '", ErrorInfo: '. $err[2], 1);
 	}
     
-    public function statement_sql($sql, array $params = array())
-    {
-        if(!is_object($this->_master_db))$this->set_db('default');
-	    $sth = $this->_master_db->prepare($sql);
-        if(!empty($params)){
-			foreach($params as $k=>&$v) $sth->bindParam($k, $v);
-		}
-        if($sth->execute()) return $sth;
-        $err = $sth->errorInfo();
-		err('Database SQL: "' . $sql. '", ErrorInfo: '. $err[2], 1);
-    }
-
-	public function set_db($db_config_key = 'default', $is_readonly = false){
-		if('default' == $db_config_key){
-			$db_config = $GLOBALS['mysql'];
-		}else if(!empty($GLOBALS['mysql'][$db_config_key])){
-			$db_config = $GLOBALS['mysql'][$db_config_key];
-		}else{
-			err("Database Err: Db config '$db_config_key' is not exists!");
-		}
-		if($is_readonly){
-			$this->_slave_db = $this->_db_instance($db_config, $db_config_key);
-		}else{
-			$this->_master_db = $this->_db_instance($db_config, $db_config_key);
-		}
-	}
-	
-	private function _db_instance($db_config, $db_config_key){
-		if(empty($GLOBALS['mysql_instances'][$db_config_key])){
+    public function db_instance($db_config, $db_config_key, $force_replace = false){
+		if($force_replace || empty($GLOBALS['instance']['mysql'][$db_config_key])){
 			try {
-				$GLOBALS['mysql_instances'][$db_config_key] = new PDO('mysql:dbname='.$db_config['MYSQL_DB'].';host='.$db_config['MYSQL_HOST'].';port='.$db_config['MYSQL_PORT'], $db_config['MYSQL_USER'], $db_config['MYSQL_PASS'], array(PDO::MYSQL_ATTR_INIT_COMMAND=>'SET NAMES \''.$db_config['MYSQL_CHARSET'].'\''));
+				$GLOBALS['instance']['mysql'][$db_config_key] = new PDO('mysql:dbname='.$db_config['MYSQL_DB'].';host='.$db_config['MYSQL_HOST'].';port='.$db_config['MYSQL_PORT'], $db_config['MYSQL_USER'], $db_config['MYSQL_PASS'], array(PDO::MYSQL_ATTR_INIT_COMMAND=>'SET NAMES \''.$db_config['MYSQL_CHARSET'].'\''));
 			}catch(PDOException $e){err('Database Err: '.$e->getMessage());}
 		}
-		return $GLOBALS['mysql_instances'][$db_config_key];
+		return $GLOBALS['instance']['mysql'][$db_config_key];
 	}
 	
 	private function _where($conditions){
@@ -350,25 +325,24 @@ class Model{
 		return $result;
 	}
     
-    public function verifier($data, $slices = array())
+    public function verifier(&$data, $slices = array())
     {
-        $rules = isset($this->rules) ? $this->rules : array();
-        if(isset($this->addrules))
+        if(!isset($this->rules)) $this->rules = array();
+        if(!empty($this->addrules))
         {
-            $addrules = $this->addrules;
-            foreach($addrules as $k => $v)
+            foreach($this->addrules as $k => $v)
             {
                 foreach($v as $kk => $vv) 
                 {
                     $add = array($kk => array($this->$kk(isset($data[$k])? $data[$k]: null), $vv));
-                    if(isset($rules[$k])) $rules[$k] = $rules[$k] + $add; else $rules[$k] = $add;
+                    if(isset($this->rules[$k])) $this->rules[$k] = $this->rules[$k] + $add; else $this->rules[$k] = $add;
                 }
             }
         }
 
-        if(!empty($rules))
+        if(!empty($this->rules))
         {
-            $verifier = new verifier($data, $rules);
+            $verifier = new verifier($data, $this->rules);
             if(!empty($slices)) $verifier->rules_slices($slices);
             return $verifier->checking();
         }
@@ -465,7 +439,7 @@ class View{
 		return preg_replace_callback($pattern, array($this, '_compile_function_callback'), $template_data);
 	}
 	
-	private function _compile_function_callback( $matches ){
+	private function _compile_function_callback($matches){
         if(empty($matches[2]))return '<?php echo '.$matches[1].'();?>';
         $sysfunc = preg_replace('/\((.*)\)\s*$/', '<?php echo '.$matches[1].'($1);?>', $matches[2], -1, $count);
         if($count)return $sysfunc;

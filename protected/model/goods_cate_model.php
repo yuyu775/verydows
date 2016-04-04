@@ -8,7 +8,7 @@ class goods_cate_model extends Model
         'cate_name' => array
         (
             'is_required' => array(TRUE, '分类名称不能为空'),
-            'max_length' => array(60, '分类名称不能超过60个字符(30个中文字符)'),    
+            'max_length' => array(60, '分类名称不能超过60个字符'),    
         ),
         'seq' => array
         (
@@ -51,23 +51,22 @@ class goods_cate_model extends Model
         $results = array();
         $cate = $this->find(array('cate_id' => $cate_id), null, 'cate_id, parent_id, cate_name');
         while(TRUE)
-		{
-			if(!empty($cate))
+        {
+            if(!empty($cate))
 			{
-				array_unshift($results, $cate);
-				$cate = $this->find(array('cate_id' => $cate['parent_id']), null, 'cate_id, parent_id, cate_name');
-			}
-			else
-			{
-				break;
-			}
-		}
+                array_unshift($results, $cate);
+                $cate = $this->find(array('cate_id' => $cate['parent_id']), null, 'cate_id, parent_id, cate_name');
+            }
+            else
+            {
+                break;
+            }
+        }
         return $results;
     }
     
     /**
      * 设置分类的筛选项
-     * @param  $cate_id  分类ID
      */
     public function set_filters($cate_id, $att = '')
     {
@@ -78,8 +77,7 @@ class goods_cate_model extends Model
         $cate_brand_model = new goods_cate_brand_model();
         if($cate_brands = $cate_brand_model->find_all(array('cate_id' => $cate_id), null, 'brand_id'))
         {
-            $vcache = new vcache();
-            $brands = $vcache->brand_model('indexed_list');
+            $brands = $GLOBALS['instance']['cache']->brand_model('indexed_list');
             foreach($cate_brands as $v) $filters['brand'][] = $brands[$v['brand_id']];
         }
         
@@ -129,8 +127,6 @@ class goods_cate_model extends Model
     
     /**
      * 自动智能价格分区
-     * @param  $cate_id  分类ID
-     * @param  $zone_qty 分区个数
      */
     private function auto_price_zone($cate_id, $zone_qty = 3)
     {
@@ -179,6 +175,4 @@ class goods_cate_model extends Model
 
         return $results;
     }
-
-    
 }

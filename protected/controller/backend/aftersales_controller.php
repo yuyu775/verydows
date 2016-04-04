@@ -96,14 +96,13 @@ class aftersales_controller extends general_controller
                ";
         if($row = $aftersales_model->query($sql, array(':id' => $id)))
         {
-            if(!empty($row[0]['goods_opts'])) $row[0]['goods_opts'] = json_decode($row[0]['goods_opts'], TRUE);
+            $row[0]['goods_opts'] = !empty($row[0]['goods_opts']) ?  json_decode($row[0]['goods_opts'], TRUE) : array();
             $this->rs = $row[0];
             $this->type_map = $aftersales_model->type_map;
             $this->status_map = $aftersales_model->status_map;
             $message_model = new aftersales_message_model();
             $this->message_list = $message_model->find_all(array('as_id' => $id), 'dateline ASC');
-            $vcache = new vcache();
-            $this->admin_list = $vcache->admin_model('indexed_list');
+            $this->admin_list = $GLOBALS['instance']['cache']->admin_model('indexed_list');
             
             $this->tpl_display('operation/aftersales.html');
         }
@@ -204,5 +203,4 @@ class aftersales_controller extends general_controller
             }
         }
     }
-    
 }

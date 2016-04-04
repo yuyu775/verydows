@@ -17,7 +17,7 @@ class admin_model extends Model
         'name' => array
         (
             'is_required' => array(TRUE, '姓名称呼不能为空'),
-            'max_length' => array(60, '姓名称呼不能超过60个字符(30个中文字符)'),
+            'max_length' => array(60, '姓名称呼不能超过60个字符'),
         ),
     );
     

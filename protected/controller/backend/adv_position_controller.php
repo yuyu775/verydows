@@ -121,7 +121,6 @@ class adv_position_controller extends general_controller
     //清除缓存
     private static function clear_cache()
     {
-        $vcache = new vcache();
-        $vcache->adv_position_model('indexed_list', null, -1);
+        $GLOBALS['instance']['cache']->adv_position_model('indexed_list', null, -1);
     }
 }

@@ -1,9 +1,13 @@
 <?php
-class balance extends payment_plugin
+/**
+ * Balance Payment
+ * @author Cigery
+ */
+class balance extends abstract_payment
 {
-    public function get_request_res($order)
+    public function create_pay_url(&$order)
     {
-        return url('pay', 'return', array('pcode' => 'balance', 'order_id' => $order['order_id']));
+        return url('pay', 'callback', array('pcode' => 'balance', 'order_id' => $order['order_id']));
     }
     
     public function get_return_res($args)
@@ -28,13 +32,13 @@ class balance extends payment_plugin
                 $account_model->decr(array('user_id' => $user_id), 'balance', $order['order_amount']);
                 $this->save_trade_log($user_id, $order_id, $order['order_amount']);
                 
-                return array('success', '付款成功', url('user', 'order', array('step' => 'view', 'id' => $args['order_id'])));
+                return array('success', '付款成功', url('order', 'view', array('id' => $args['order_id'])));
             }
             
             return array('error', '您的账户中余额不足，请使用其他支付方式', url('pay', 'index', array('order_id' => $args['order_id'])));
         }
         
-        return array('success', '付款成功', null);
+        return array('error', '付款失败，订单不存在', null);
     }
     
     private function save_trade_log($user_id, $order_id, $order_amount)
@@ -50,4 +54,3 @@ class balance extends payment_plugin
         $log_model->create($log_data);
     }
 }
-?>

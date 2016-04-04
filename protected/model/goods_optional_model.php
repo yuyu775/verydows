@@ -26,17 +26,15 @@ class goods_optional_model extends Model
     {
         if($find_all = $this->find_all(array('goods_id' => $goods_id)))
         {
-            $vcache = new vcache();
-            $type_map = $vcache->goods_optional_type_model('indexed_list');
-            $results = array();
+            $type_map = $GLOBALS['instance']['cache']->goods_optional_type_model('indexed_list');
+            $res = array();
             foreach($find_all as $v)
             {
-                $results[$v['type_id']]['type_id'] = $v['type_id'];
-                $results[$v['type_id']]['type_name'] = isset($type_map[$v['type_id']]) ? $type_map[$v['type_id']] : 'Unknown';
-                $results[$v['type_id']]['children'][] = $v;
+                $res[$v['type_id']]['type_id'] = $v['type_id'];
+                $res[$v['type_id']]['type_name'] = isset($type_map[$v['type_id']]) ? $type_map[$v['type_id']] : 'Unknown';
+                $res[$v['type_id']]['children'][] = $v;
             }
-            
-            return $results;
+            return $res;
         }
         return $find_all;
     }

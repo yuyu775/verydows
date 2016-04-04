@@ -5,8 +5,6 @@ class goods_album_model extends Model
     
     /**
      * 添加并上传相册图片
-     * @param array  $file_input   文件域名称          
-     * @param array  $goods_id     商品ID
      */
     public function add_album_image($file_input, $goods_id)
     {

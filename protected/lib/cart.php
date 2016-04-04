@@ -8,17 +8,12 @@ class cart
         {
             case 'add':
             
-                if(isset($cart['item'][$key])) return FALSE; //已存在购物车中
+                if(isset($cart['item'][$key])) return FALSE;
                 $cart['item'][$key] = $data;
                 
             break;
             
-            case 'remove':
-            
-                if(!isset($cart['item'][$key])) return FALSE;
-                unset($cart['item'][$key]); 
-                
-            break;
+            case 'remove': unset($cart['item'][$key]); break;
             
             case 'checkout':
             
@@ -106,7 +101,7 @@ class cart
         return array();
     }
     
-    public static function set_cookie($cart, $expire = 86400)
+    public static function set_cookie(&$cart, $expire = 86400)
     {
         if(!empty($cart['item']))
         {

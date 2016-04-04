@@ -41,7 +41,7 @@ function login(e){
     <div class="login-banner fl cut"><{layout_adv id='3'}></div>
     <form method="post" action="<{url c='user' a='login' step='submit'}>" id="login-form">
       <input type="password" value="" class="hide" />
-      <div class="login">
+      <div class="login ml530">
         <h2 class="c666">用户登录</h2>
         <dl class="username mt20">
           <dt><i class="icon"></i></dt>
@@ -67,7 +67,18 @@ function login(e){
           <div class="fr"><a href="<{url c='user' a='retrieve_pwd'}>">忘记密码？</a></div>
         </div>
         <a class="form-submit aln-c radius4 mt20" onclick="login(this)">登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;陆</a>
-        <div class="c999 ml10 mt20">您还没有账号？ 立即<a href="<{url c='user' a='register'}>">免费注册</a></div>
+        <div class="c999 mt20">您还没有账号？ 立即<a href="<{url c='user' a='register'}>">免费注册</a></div>
+	<{if !empty($oauth_list)}>
+	<div class="oauthli mt50 aln-c">
+	  <p class="c888">使用其他方式登录</p>
+	  <div class="line mt5 mb5"></div>
+	  <div class="pad10">
+	    <{foreach $oauth_list as $k => $v}>
+	    <a href="<{$v.login_url}>"><img alt="<{$v.name}>" src="<{$common.url}>/plugin/oauth/icon/<{$k}>.png" /></a>
+	    <{/foreach}>
+	  </div>
+	</div>
+	<{/if}>
       </div>
     </form>
   </div>

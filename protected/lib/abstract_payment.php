@@ -1,20 +1,21 @@
 <?php
-abstract class payment_plugin
+abstract class abstract_payment
 {
-    protected $plugin_parms;
+    protected $config = array();
     
     protected $notify_callback;
     
     protected $return_callback;
     
-    public function __construct($pcode, $parms = null)
+    public function __construct($params = null)
     {
-        $this->notify_callback = "{$GLOBALS['cfg']['http_host']}/pay/notify/{$pcode}";
-        $this->return_callback = "{$GLOBALS['cfg']['http_host']}/pay/return/{$pcode}";
-        $this->plugin_parms = $parms;
+        $pcode = get_class($this);
+        $this->notify_callback = "{$GLOBALS['cfg']['http_host']}/pay/callback/notify/{$pcode}";
+        $this->return_callback = "{$GLOBALS['cfg']['http_host']}/pay/callback/return/{$pcode}";
+        if(!empty($params)) $this->config = json_decode($params, TRUE);
     }
     
-    abstract protected function get_request_res($order);
+    abstract protected function create_pay_url(&$order);
     
     abstract protected function get_server_res($args);
     

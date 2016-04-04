@@ -25,7 +25,7 @@ function addToCart(goods, btn){
   $.ajax({
     type: "post",
     dataType: "text",
-    url: hostUrl+"/index.php?c=order&a=cart&step=add",
+    url: hostUrl+"/index.php?c=cart&a=index&step=add",
     data: {'id':goods, 'qty':$("input[name='qty']").val(), 'opts':opts_val},
     beforeSend:function(){
       $('#tocart-loading').css({ 

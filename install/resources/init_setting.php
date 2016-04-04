@@ -54,18 +54,13 @@ return array
     'debug' => 1,
     'rewrite_rule' => array
     (
-        'pay/notify/<pcode>' => 'pay/notify',
-        'pay/return/<pcode>' => 'pay/return',
         '404.html' => 'main/404',
         'search.html' => 'goods/search',
         'item/<id>.html' => 'goods/index',
         'cate/<id>.html' => 'category/index',
-        'news/<id>.html' => 'article/index',
-        'help/<id>.html' => 'help/index',
         '<a>/img' => 'image/<a>',
         'index.html' => 'main/index',
         '<c>/<a>.html' => '<c>/<a>',
     ),
 );
-
 ?>

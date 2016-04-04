@@ -32,7 +32,7 @@ function cancelConsigneeForm(container, addbtn){
 function getConsigneeInfo(container, id){
   var form = $('#'+container).find('form');
   form.find('input[name="id"]').val(id);
-  $.getJSON(hostUrl+"/index.php?c=consignee&a=asyncgetinfo&id="+id, function(rs){
+  $.getJSON(hostUrl+"/index.php?c=consignee&a=info&id="+id, function(rs){
     if(rs.status == 'success'){
       form.find('input[name="name"]').val(rs.data.name);
       form.find('select[name="province"]').val(rs.data.province);

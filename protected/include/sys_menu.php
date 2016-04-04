@@ -76,6 +76,11 @@ return array
             '物流承运商' => 'c=shipping_carrier&a=index',
         ),
         
+        '系统应用' => array
+        (
+            '授权登录' => 'c=oauth&a=index',
+        ),
+        
         '系统工具' => array
         (
             '文件管理' => 'c=file&a=index',

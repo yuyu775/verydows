@@ -18,8 +18,7 @@ class order_log_controller extends general_controller
             
             if(!empty($list))
             {   
-                $vcache = new vcache();
-                $admin_list = $vcache->admin_model('indexed_list');
+                $admin_list = $GLOBALS['instance']['cache']->admin_model('indexed_list');
                 $operate_map = $log_model->operate_map;
                 foreach($list as $k => $v)
                 {
@@ -64,5 +63,4 @@ class order_log_controller extends general_controller
             $this->prompt('error', '参数错误');
         }
     }
-
 }

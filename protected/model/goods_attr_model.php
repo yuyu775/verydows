@@ -5,8 +5,6 @@ class goods_attr_model extends Model
     
     /**
      * 获取商品属性及属性可选值
-     * @param  $cate_id  分类ID
-     * @param  $goods_id 商品ID
      */
     public function get_goods_attrs($cate_id, $goods_id)
     {
@@ -32,8 +30,6 @@ class goods_attr_model extends Model
     
     /**
      * 获取商品属性规格参数
-     * @param  $cate_id  分类ID
-     * @param  $goods_id 商品ID
      */
     public function get_goods_specs($cate_id, $goods_id)
     {

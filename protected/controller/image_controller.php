@@ -1,7 +1,7 @@
 <?php
 class image_controller extends Controller
 {
-	public function action_index()
+    public function action_index()
     {
         $i = $_GET['i'];
         $s = $_GET['s'];
@@ -10,12 +10,9 @@ class image_controller extends Controller
         {
             $im_root = APP_DIR.DS.'upload'.DS.'goods'.DS.'image'.DS;
             $cache_path = $im_root.$s.DS.$i;
-            if(is_file($cache_path))
-            {
-                header('Content-Type:image/jpeg; text/html; charset=utf-8');
-                echo @readfile($cache_path);
-            }
-            else
+            
+            header('Content-Type:image/jpeg; text/html; charset=utf-8');
+            if(FALSE === @readfile($cache_path))
             {
                 $orgi_path = $im_root.$i;
                 list($w, $h) = explode('x', $s);
@@ -26,7 +23,7 @@ class image_controller extends Controller
                 }
             }
         }
-	}
+    }
     
     public function action_album()
     {
@@ -37,12 +34,9 @@ class image_controller extends Controller
         {
             $im_root = APP_DIR.DS.'upload'.DS.'goods'.DS.'album'.DS;
             $cache_path = $im_root.$s.DS.$i;
-            if(is_file($cache_path))
-            {
-                header('Content-Type:image/jpeg; text/html; charset=utf-8');
-                echo @readfile($cache_path);
-            }
-            else
+            
+            header('Content-Type:image/jpeg; text/html; charset=utf-8');
+            if(FALSE === @readfile($cache_path))
             {
                 $orgi_path = $im_root.$i;
                 list($w, $h) = explode('x', $s);

@@ -10,7 +10,7 @@ function request($name, $default = FALSE, $method = 'request')
     switch($method)
     {
         case 'get': $value = isset($_GET[$name]) ? $_GET[$name]: FALSE; break;
-		case 'post': $value = isset($_POST[$name]) ? $_POST[$name] : FALSE; break;
+        case 'post': $value = isset($_POST[$name]) ? $_POST[$name] : FALSE; break;
         case 'cookie': $value = isset($_COOKIE[$name]) ? $_COOKIE[$name] : FALSE; break;
         case 'request': 
         default:

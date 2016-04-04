@@ -12,9 +12,6 @@ class order_log_model extends Model
     );
     /**
      * 记录订单日志
-     * @param $order_id 订单号
-     * @param $operate 操作类型
-     * @param $cause 原因/备注
      */
     public function record($order_id, $operate, $cause)
     {

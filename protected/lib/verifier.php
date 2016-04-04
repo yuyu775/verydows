@@ -3,13 +3,13 @@ class verifier
 {
     private $data, $rules;
     
-    public function __construct($data = array(), $rules = array())
+    public function __construct(&$data, &$rules)
     {	
         $this->data = $data;
         $this->rules = $rules;
     }
     
-    public function rules_slices($slices)
+    public function rules_slices($slices = array())
     {
         if(!empty($slices))
         {
@@ -25,18 +25,16 @@ class verifier
     
     public function checking()
     {
-        $data = $this->data;
-        $rules = $this->rules;
         $err = array();
-        foreach($rules as $k => $v)
+        foreach($this->rules as $k => $v)
         {
-            if(isset($data[$k]))
+            if(isset($this->data[$k]))
             {
                 foreach($v as $kk => $vv)
                 {
                     if(method_exists($this, $kk))
                     {
-                        if(FALSE == $this->$kk($data[$k], $vv[0])) array_push($err, $vv[1]); 
+                        if(FALSE == $this->$kk($this->data[$k], $vv[0])) array_push($err, $vv[1]); 
                     }
                     else
                     {

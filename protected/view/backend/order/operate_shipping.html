@@ -30,7 +30,7 @@ function submitShipForm(){
             <td>
 	      <select class="slt" name="carrier_id">
                 <option value="">请选择</option>
-                <{foreach $shipping_carrier_list as $v}>
+                <{foreach $carrier_list as $v}>
                 <option value="<{$v.id}>"><{$v.name}></option>
                 <{/foreach}>
               </select>

@@ -47,7 +47,9 @@
                 <td width="80"><a href="<{url c='goods' a='index' id=$v.goods_id}>"><img src="<{url c='image' a='index' i=$v.goods_image s='50x50'}>" /></a></td>
                 <td>
                   <p class="aln-l"><a href="<{url c='goods' a='index' id=$v.goods_id}>"><{$v.goods_name}></a></p>
+		  <{if !empty($v.goods_opts)}>
                   <p class="c999 aln-l mt5"><{foreach $v.goods_opts as $vv}><span class="mr5">[<{$vv.type}>: <font class="c666"><{$vv.opt_text}></font>]</span><{/foreach}></p>
+		  <{/if}>
                 </td>
                 <td><{$v.goods_qty}></td>
                 <td><a class="blue-btn" href="<{url c='aftersales' a='apply' order_id=$v.order_id goods_id=$v.goods_id}>">报修/退换货</a></td>

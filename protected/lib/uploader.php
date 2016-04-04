@@ -23,11 +23,11 @@ class uploader
      * @param array     $format_limit   文件格式限制
      * @param array     $size_limit     上传文件大小限制
      */
-    function __construct($save_path, $format_limit = null, $size_limit = null)
+    public function __construct($save_path, $format_limit = null, $size_limit = 0)
     {
         $this->save_path = $save_path;
-        if($format_limit != null) $this->format_limit = $format_limit;
-        if($size_limit != null) $this->size_limit = $size_limit;
+        if(!empty($format_limit)) $this->format_limit = $format_limit;
+        if(!empty($size_limit)) $this->size_limit = $size_limit;
     }
     
     /**

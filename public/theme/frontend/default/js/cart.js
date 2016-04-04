@@ -38,7 +38,7 @@ $(function(){
         $.ajax({
           type: "post",
           dataType: "text",
-          url: hostUrl+"/index.php?c=order&a=cart&step=remove",
+          url: hostUrl+"/index.php?c=cart&a=index&step=remove",
           data: {'key': row.attr('data-key')},
           beforeSend:function(){$('body').vdsLoading({text:'正在删除...'});},	
           success: function(data){
@@ -48,7 +48,7 @@ $(function(){
               total_cart();
               if($('.cart-row').size() < 1) $('.container').empty().append("<div class='cart-empty cut'><p class='c666'>您的购物车是空的！<a href='"+hostUrl+"'>快去逛一逛</a>，找到您喜欢的商品放进购物车吧。</p></div>");
             }else{
-              alert('删除失败，请重试！');
+              alert('删除失败，请重试!');
             }
 	  },
           error:function(){$('body').vdsLoading({sw:false});alert('请求出错！');}
@@ -66,7 +66,7 @@ $(function(){
         $.ajax({
           type: "post",
           dataType: "text",
-          url: hostUrl+"/index.php?c=order&a=cart&step=clear",
+          url: hostUrl+"/index.php?c=cart&a=index&step=clear",
           beforeSend:function(){
             $('body').vdsLoading({text:'正在清空您的购物车...'});
           },

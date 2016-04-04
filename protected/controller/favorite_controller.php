@@ -3,19 +3,19 @@ class favorite_controller extends general_controller
 {
     public function action_index()
     {
-        $user_id = parent::check_acl();
+        $user_id = $this->is_logged();
         $favor_model = new user_favorite_model();
         $this->favorite_list = array
         (
             'rows' => $favor_model->get_user_favorites($user_id, vds_request('page', 1, 'get')),
             'paging' => $favor_model->page,
         );
-        parent::tpl_display('user_favorite_list.html');
+        $this->tpl_display('user_favorite_list.html');
     }
     
     public function action_add()
     {
-        if($user_id = parent::check_acl(1))
+        if($user_id = $this->is_logged(1))
         {
             $goods_id = intval(vds_request('id', 0));
             $goods_model = new goods_model();
@@ -46,25 +46,24 @@ class favorite_controller extends general_controller
     
     public function action_delete()
     {
-        $user_id = parent::check_acl();
+        $user_id = $this->is_logged();
         $id = vds_request('id', null);
         if(!empty($id))
         {
             $favor_model = new user_favorite_model();
             if(is_array($id))
             {
-                foreach($id as $v) $favor_model->delete(array('id' => $v, 'user_id' => $user_id));
+                foreach($id as $v) $favor_model->delete(array('id' => intval($v), 'user_id' => $user_id));
             }
             else
             {
-                $favor_model->delete(array('id' => $id, 'user_id' => $user_id));
+                $favor_model->delete(array('id' => intval($id), 'user_id' => $user_id));
             }
             vds_jump(url('favorite', 'index'));
         }
         else
         {
-            parent::prompt('error', '参数错误！');
+            $this->prompt('error', '参数错误！');
         }
     }
-    
 }

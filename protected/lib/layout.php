@@ -4,14 +4,14 @@ class layout
     public $path;
     
     public function __construct()
-	{	
-		$this->path = array
+    {	
+        $this->path = array
         (
             'tpl' => VIEW_DIR.DS.'frontend'.DS.$GLOBALS['cfg']['enabled_theme'].DS.'layout',
             'cache' => APP_DIR.DS.'protected'.DS.'cache'.DS.'template',
             'static' => APP_DIR.DS.'protected'.DS.'cache'.DS.'static',
         );
-	}
+    }
     
     public function tpl_render($tplname, $assigns = array(), $staticize = FALSE)
     {

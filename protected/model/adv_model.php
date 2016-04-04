@@ -10,7 +10,7 @@ class adv_model extends Model
         'name' => array
         (
             'is_required' => array(TRUE, '广告名称不能为空'),
-            'max_length' => array(100, '角色名不能超过100个字符'),
+            'max_length' => array(100, '广告名不能超过100个字符'),
         ),
         'start_date' => array
         (

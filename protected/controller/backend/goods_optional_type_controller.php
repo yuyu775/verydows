@@ -92,7 +92,6 @@ class goods_optional_type_controller extends general_controller
     //清除缓存
     private static function clear_cache()
     {
-        $vcache = new vcache();
-        $vcache->goods_optional_type_model('indexed_list', null, -1);
+        $GLOBALS['instance']['cache']->goods_optional_type_model('indexed_list', null, -1);
     }
 }

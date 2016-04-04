@@ -47,7 +47,7 @@
               </tr>
               <{foreach $aftersales_list.rows as $v}>
               <tr>
-                <td><{$aftersales_list.type_map[$v.type]}></td>
+                <td><{$v.type}></td>
                 <td><{$v.order_id}></td>
                 <td width="60"><a href="<{url c='goods' a='index' id=$v.goods_id}>"><img src="<{url c='image' a='index' i=$v.goods.goods_image s='50x50'}>" /></a></td>
                 <td>
@@ -58,14 +58,14 @@
                   <p class="aln-l c999 mt5">数量:<font class="ml5 c666"><{$v.goods_qty}></font></p>
                 </td>
                 <td><{date('Y-m-d H:i:s', $v.created_date)}></td>
-                <td><a href="<{url c='aftersales' a='details' id=$v.as_id}>">查看详细</a></td>
+                <td><a href="<{url c='aftersales' a='view' id=$v.as_id}>">查看详细</a></td>
               </tr>
               <{/foreach}>
             </table>
           </div>
           <{if !empty($aftersales_list.paging)}>
           <!-- 页码开始 -->
-          <div class="module aln-c mt10 cut"><{layout_paging paging=$aftersales_list.paging class='paging small' c='user' a='aftersales'}></div>
+          <div class="module aln-c mt10 cut"><{layout_paging paging=$aftersales_list.paging class='paging small' c='aftersales' a='index'}></div>
           <!-- 页码结束 -->
           <{/if}>
         </div>

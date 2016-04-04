@@ -354,6 +354,19 @@ INSERT INTO `#tablepre#navigation` VALUES
 ('7','相关下载','http://www.verydows.com/download/index.html','2','1','3','1'),
 ('8','Github','https://github.com/Verytops/verydows','2','1','4','1');
 
+DROP TABLE IF EXISTS `#tablepre#oauth`;
+CREATE TABLE `#tablepre#oauth` (
+  `party` char(10) NOT NULL default '',
+  `name` varchar(30) NOT NULL,
+  `params` text NOT NULL,
+  `instruction` varchar(240) NOT NULL default '',
+  `enable` tinyint(1) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`party`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+INSERT INTO `#tablepre#oauth` VALUES ('qq', 'QQ', '{\"app_id\":\"\",\"app_key\":\"\"}', 'QQ互联开放平台为第三方网站提供了丰富的API。第三方网站接入QQ互联开放平台后，即可通过调用平台提供的API实现用户使用QQ帐号登录网站功能，且可以获取到腾讯QQ用户的相关信息。', '0');
+INSERT INTO `verydows_oauth` VALUES ('weibo', '新浪微博', '{\"app_key\":\"\",\"app_secret\":\"\"}', '网站接入是微博针对第三方网站提供的社会化网络接入方案。接入微连接让您的网站支持用微博帐号登录，基于OAuth2.0协议，使用微博 Open API 进行开发， 即可用微博帐号登录你的网站， 让你的网站降低新用户注册成本，快速获取大量用户。', '0');
+
 DROP TABLE IF EXISTS `#tablepre#order`;
 CREATE TABLE `#tablepre#order` (
   `order_id` char(15) NOT NULL,
@@ -470,7 +483,7 @@ INSERT INTO `#tablepre#setting` VALUES ('smtp_port', '');
 INSERT INTO `#tablepre#setting` VALUES ('smtp_secure', '');
 INSERT INTO `#tablepre#setting` VALUES ('admin_mult_ip_login', '0');
 INSERT INTO `#tablepre#setting` VALUES ('upload_goods_filesize', '300KB');
-INSERT INTO `#tablepre#setting` VALUES ('visitor_stats', '0');
+INSERT INTO `#tablepre#setting` VALUES ('visitor_stats', '1');
 INSERT INTO `#tablepre#setting` VALUES ('goods_hot_searches', '');
 INSERT INTO `#tablepre#setting` VALUES ('cate_goods_per_num', '20');
 INSERT INTO `#tablepre#setting` VALUES ('goods_history_num', '5');
@@ -495,7 +508,7 @@ INSERT INTO `#tablepre#setting` VALUES ('home_article_num', '4');
 INSERT INTO `#tablepre#setting` VALUES ('data_cache_lifetime', '7200');
 INSERT INTO `#tablepre#setting` VALUES ('goods_fulltext_query', '0');
 INSERT INTO `#tablepre#setting` VALUES ('debug', '1');
-INSERT INTO `#tablepre#setting` VALUES ('rewrite_rule', '{\"pay\\/notify\\/<pcode>\":\"pay\\/notify\",\"pay\\/return\\/<pcode>\":\"pay\\/return\",\"404.html\":\"main\\/404\",\"search.html\":\"goods\\/search\",\"item\\/<id>.html\":\"goods\\/index\",\"cate\\/<id>.html\":\"category\\/index\",\"news\\/<id>.html\":\"article\\/index\",\"help\\/<id>.html\":\"help\\/index\",\"<a>\\/img\":\"image\\/<a>\",\"index.html\":\"main\\/index\",\"<c>\\/<a>.html\":\"<c>\\/<a>\"}');
+INSERT INTO `verydows_setting` VALUES ('rewrite_rule', '{\"404.html\":\"main\\/404\",\"search.html\":\"goods\\/search\",\"item\\/<id>.html\":\"goods\\/index\",\"cate\\/<id>.html\":\"category\\/index\",\"<a>\\/img\":\"image\\/<a>\",\"index.html\":\"main\\/index\",\"<c>\\/<a>.html\":\"<c>\\/<a>\"}');
 
 DROP TABLE IF EXISTS `#tablepre#shipping_carrier`;
 CREATE TABLE `#tablepre#shipping_carrier` (
@@ -607,6 +620,13 @@ CREATE TABLE `#tablepre#user_group` (
 INSERT INTO `#tablepre#user_group` VALUES ('1', '初级会员', '0', '100');
 INSERT INTO `#tablepre#user_group` VALUES ('2', '中级会员', '2000', '100');
 INSERT INTO `#tablepre#user_group` VALUES ('3', '高级会员', '7000', '100');
+
+DROP TABLE IF EXISTS `#tablepre#user_oauth`;
+CREATE TABLE `#tablepre#user_oauth` (
+  `user_id` mediumint(8) unsigned NOT NULL default '0',
+  `party` char(10) NOT NULL default '',
+  `oauth_key` char(32) NOT NULL default ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `#tablepre#user_profile`;
 CREATE TABLE `#tablepre#user_profile` (

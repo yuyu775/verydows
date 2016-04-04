@@ -84,8 +84,7 @@ class feedback_controller extends general_controller
             $this->status_map = $feedback_model->status_map;
             $message_model = new feedback_message_model();
             $this->message_list = $message_model->find_all(array('fb_id' => $id), 'dateline ASC');
-            $vcache = new vcache();
-            $this->admin_list = $vcache->admin_model('indexed_list');
+            $this->admin_list = $GLOBALS['instance']['cache']->admin_model('indexed_list');
             $this->tpl_display('operation/feedback.html');
         }
         else

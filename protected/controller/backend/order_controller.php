@@ -73,30 +73,35 @@ class order_controller extends general_controller
     
     public function action_view()
     {
-        $order_id = vds_request('id', 0, 'get');
+        $order_id = vds_request('id', '', 'get');
         $condition = array('order_id' => $order_id);
         $order_model = new order_model();
-        if ($order = $order_model->find($condition))
+        if($order = $order_model->find($condition))
         {
-            $user_model = new user_model();
-            $this->user = $user_model->find(array('user_id' => $order['user_id']));
+            $payment_map = $GLOBALS['instance']['cache']->payment_method_model('indexed_list');
+            $shipping_map = $GLOBALS['instance']['cache']->shipping_method_model('indexed_list');
+            $order['payment_method_name'] = $payment_map[$order['payment_method']]['name'];
+            $order['shipping_method_name'] = $shipping_map[$order['shipping_method']]['name'];
             $order['consignee'] = json_decode($order['consignee'], TRUE);
             $this->order = $order;
             $this->status_map = $order_model->status_map;
+            //用户信息
+            $user_model = new user_model();
+            $this->user = $user_model->find(array('user_id' => $order['user_id']));
+            //商品列表
             $order_goods_model = new order_goods_model();
             $goods_list = $order_goods_model->find_all($condition);
             foreach($goods_list as $k => $v) if(!empty($v['goods_opts'])) $goods_list[$k]['goods_opts'] = json_decode($v['goods_opts'], TRUE); 
             $this->goods_list = $goods_list;
-            $vcache = new vcache();
-            $this->payment_method_list = $vcache->payment_method_model('indexed_list');
-            $this->shipping_method_list = $vcache->shipping_method_model('indexed_list');
-            $this->shipping_carrier_list = $vcache->shipping_carrier_model('indexed_list');
+            //发货列表
             $shipping_model = new order_shipping_model();
-            $this->shipping_list = $shipping_model->find_all($condition, 'dateline DESC');
+            $this->shipped_list = $shipping_model->find_all($condition, 'dateline DESC');
+            $this->carrier_list = $GLOBALS['instance']['cache']->shipping_carrier_model('indexed_list');
+            //日志列表
             $log_model = new order_log_model();
             if($this->log_list = $log_model->find_all($condition, 'dateline DESC'))
             {
-                $this->admin_list = $vcache->admin_model('indexed_list');
+                $this->admin_list = $GLOBALS['instance']['cache']->admin_model('indexed_list');
                 $this->operate_map = $log_model->operate_map;
             }
             
@@ -234,7 +239,7 @@ class order_controller extends general_controller
                 
                 case 'shipping':
                     
-                    if($order['order_status'] == 2 || ($order['order_status'] == 1 && $order['payment_method'] == 2))
+                    if($order['order_status'] >= 2 || ($order['order_status'] != 0 && $order['payment_method'] == 2))
                     {
                         $data = array
                         (
@@ -268,9 +273,7 @@ class order_controller extends general_controller
                 1 => '操作失败',
                 2 => '当前订单无法进行此操作',
             );
-            
-            if($errno == 0) $prompt = 'success'; else $prompt = 'error';
-            $this->prompt($prompt, $errormap[$errno], url($this->MOD.'/order', 'view', array('id' => $order_id)));
+            $this->prompt($errno == 0 ? 'success' : 'error', $errormap[$errno], url($this->MOD.'/order', 'view', array('id' => $order_id)));
         }
         else
         {

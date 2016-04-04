@@ -12,7 +12,8 @@ class database_controller extends general_controller
         else
         {
             $model = new Model();
-            $table_list = $model->statement_sql("SHOW TABLES LIKE '{$GLOBALS['mysql']['MYSQL_DB_TABLE_PRE']}%'")->fetchAll(PDO::FETCH_NUM);
+            $sth = $model->db_instance($GLOBALS['mysql'], 'master')->query("SHOW TABLES LIKE '{$GLOBALS['mysql']['MYSQL_DB_TABLE_PRE']}%'");
+            $table_list = $sth->fetchAll(PDO::FETCH_NUM);
             $this->table_list = vds_array_column($table_list, 0);
             $this->tpl_display('tools/database_backup.html');
         }
@@ -133,5 +134,4 @@ class database_controller extends general_controller
             $this->tpl_display('tools/database_optimize.html');
         }
     }
-
 }

@@ -3,7 +3,7 @@ class goods_controller extends Controller
 {  
     public function action_reviews()
     {
-        $goods_id = vds_request('id');
+        $goods_id = intval(vds_request('id'));
         $results = array('status' => 0);
         $review_model = new goods_review_model();
         if($GLOBALS['cfg']['user_review_approve'] == 1)

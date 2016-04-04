@@ -1,8 +1,3 @@
-/*
- * Verydows 后台管理系统公JS
- * By Cigery 2014-11-8
-*/
-
 //格式化Unix时间戳
 function formatTimestamp(time, format) {
   var d = new Date(parseInt(time) * 1000), month = d.getMonth() + 1, day = d.getDate(), hour = d.getHours(), minute = d.getMinutes(), second = d.getSeconds();
