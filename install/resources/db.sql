@@ -347,8 +347,8 @@ CREATE TABLE `#tablepre#navigation` (
 INSERT INTO `#tablepre#navigation` VALUES
 ('1','后台管理','#http_host#/index.php?m=backend&c=main&a=index','0','1','1','1'),
 ('2','官方网站','http://www.verydows.com/','0','1','2','1'),
-('3','我的订单','#http_host#/user/order.html','1','1','1','1'),
-('4','收藏夹','#http_host#/user/index.html','1','1','2','1'),
+('3','我的订单','#http_host#/order/index.html','1','1','1','1'),
+('4','收藏夹','#http_host#/favorite/index.html','1','1','2','1'),
 ('5','社区论坛','http://bbs.verydows.com/','2','1','1','1'),
 ('6','帮助文档','http://www.verydows.com/manual/starting.html','2','1','2','1'),
 ('7','相关下载','http://www.verydows.com/download/index.html','2','1','3','1'),
