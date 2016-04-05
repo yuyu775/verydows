@@ -1,7 +1,7 @@
 <?php
 class oauth_controller extends general_controller
 {
-    public function callback()
+    public function action_callback()
     {
         $party = vds_request('party', null, 'get');
         if($party)
