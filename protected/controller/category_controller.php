@@ -1,7 +1,6 @@
 <?php
 class category_controller extends general_controller
 {
-	//商品分类
     public function action_index()
     {
         $id = intval(vds_request('id', 0, 'get'));
