@@ -134,8 +134,6 @@ class cart_controller extends general_controller
                         $order_goods_model->add_records($order_id, $cart['item']);
                         cart::update('clear');
                         
-                        #if($payment_method == 2) $this->prompt('success', '您的订单提交成功，感谢您的购买，我们将会尽快为您安排发货', url('order', 'view', array('id' => $order_id)));
-                        
                         vds_jump(url('pay', 'index', array('order_id' => $order_id)));
                     }
                     else
