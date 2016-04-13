@@ -7,16 +7,15 @@ class weibo extends abstract_oauth
 {
     private $api_uri = 'https://api.weibo.com/';
     
-    public function create_login_url()
+    public function create_login_url($state = '')
     {
-        $this->set_session('state', md5(uniqid(rand(), TRUE)));
         $params = array
         (
             'client_id' => $this->config['app_key'],
             'client_secret' => $this->config['app_secret'],
             'redirect_uri' => $this->config['callback'],
             'response_type' => 'code',
-            'state' => $this->get_session('state'),
+            'state' => $state,
             'display' => '',
         );
         return $this->api_uri.'oauth2/authorize?'.http_build_query($params);
