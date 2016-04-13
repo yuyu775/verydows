@@ -11,7 +11,7 @@ abstract class abstract_oauth
         $this->config['callback'] = "{$GLOBALS['cfg']['http_host']}/oauth/callback/".$party;
     }
     
-    abstract protected function create_login_url();
+    abstract protected function create_login_url($state = '');
     
     abstract protected function check_callback($args);
     
@@ -26,18 +26,18 @@ abstract class abstract_oauth
         curl_setopt($ch, CURLOPT_USERAGENT, 'Verydows Oauth2.0');
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
         curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-		curl_setopt($ch, CURLOPT_ENCODING, "");
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-		if(version_compare(PHP_VERSION, '5.4.0', '<'))
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_ENCODING, "");
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        if(version_compare(PHP_VERSION, '5.4.0', '<'))
         {
-			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
-		}
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
+        }
         else
         {
-			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-		}
-		curl_setopt($ch, CURLOPT_HEADER, FALSE);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+        }
+        curl_setopt($ch, CURLOPT_HEADER, FALSE);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
         curl_setopt($ch, CURLINFO_HEADER_OUT, TRUE);
         curl_setopt($ch, CURLOPT_URL, $uri);
