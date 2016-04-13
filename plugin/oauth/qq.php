@@ -7,15 +7,14 @@ class qq extends abstract_oauth
 {
     private $api_uri = 'https://graph.qq.com/';
     
-    public function create_login_url()
+    public function create_login_url($state = '')
     {
-        $this->set_session('state', md5(uniqid(rand(), TRUE)));
         $params = array
         (
             'response_type' => 'code',
             'client_id' => $this->config['app_id'],
             'redirect_uri' => $this->config['callback'],
-            'state' => $this->get_session('state'),
+            'state' => $state,
             'scope' => 'get_user_info',
         );
         return $this->api_uri.'oauth2.0/authorize?'.http_build_query($params);
