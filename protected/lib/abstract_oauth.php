@@ -6,7 +6,6 @@ abstract class abstract_oauth
     public function __construct($params = null)
     {
         $party = get_class($this);
-        $this->set_session('party', $party);
         if(!empty($params)) $this->config = json_decode($params, TRUE);
         $this->config['callback'] = "{$GLOBALS['cfg']['http_host']}/oauth/callback/".$party;
     }
