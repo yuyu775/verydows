@@ -180,10 +180,11 @@ function write_config($params)
     return file_put_contents(APP_DIR.DS.'protected'.DS.'config.php', $streams);
 }
 
-function init_setting()
+function init_setting($encrypt_key)
 {
     $setting = include(INSTALL_DIR.DS.'resources'.DS.'init_setting.php');
     $setting['http_host'] = get_http_host();
+    $setting['encrypt_key'] = $encrypt_key;
     $codes = "<?php \nreturn ".var_export($setting, TRUE).";";
     file_put_contents(APP_DIR.DS.'protected'.DS.'setting.php', $codes);
 }
