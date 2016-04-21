@@ -117,7 +117,7 @@ switch($step)
         $install_errors += $r;
         call_script('showConfigStatus', $r, 'config.php');
         
-        $r = init_setting() !== FALSE ? 0 : 1;
+        $r = init_setting($encrypt_key) !== FALSE ? 0 : 1;
         $install_errors += $r;
         call_script('showSettingStatus', $r, "setting.php");
         
