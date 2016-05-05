@@ -7,7 +7,7 @@ class balance extends abstract_payment
 {
     public function create_pay_url(&$order)
     {
-        return url('pay', 'callback', array('pmode' => 'return', 'pcode' => 'balance', 'order_id' => $order['order_id']));
+        return $this->return_callback . '?order_id='. $order['order_id'];
     }
     
     public function get_return_res($args)
