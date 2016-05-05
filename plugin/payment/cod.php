@@ -7,7 +7,7 @@ class cod extends abstract_payment
 {
     public function create_pay_url(&$order)
     {
-        return url('pay', 'callback', array('pcode' => 'cod', 'order_id' => $order['order_id']));
+        return $this->return_callback. '?order_id='. $order['order_id'];
     }
     
     public function get_return_res($args)
