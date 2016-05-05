@@ -46,7 +46,7 @@ class pay_controller extends general_controller
     public function action_callback()
     {
         $mode = vds_request('pmode', null, 'get');
-        if(!in_array($mode, array('notify', 'return')))
+        if(in_array($mode, array('notify', 'return')))
         {
             $pcode = vds_request('pcode', '', 'get');
             $payment_model = new payment_method_model();
@@ -63,6 +63,10 @@ class pay_controller extends general_controller
                     $this->prompt($res[0], $res[1], $res[2]);
                 }
             }
+        }
+        else
+        {
+            $this->prompt('error', '参数错误', url('main', 'index'));
         }
     }
 }
