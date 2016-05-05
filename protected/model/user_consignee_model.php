@@ -8,12 +8,12 @@ class user_consignee_model extends Model
         'name' => array
         (
             'is_required' => array(TRUE, '收件人姓名不能为空'),
-            'max_length' => array(60, '收件人姓名不能超过60个字符(30个中文字符)'),
+            'max_length' => array(60, '收件人姓名不能超过60个字符'),
         ),
         'address' => array
         (
             'is_required' => array(TRUE, '详细地址不能为空'),
-            'max_length' => array(240, '详细地址不能超过240个字符(120个中文字符)'),
+            'max_length' => array(240, '详细地址不能超过240个字符'),
         ),  
         'zip' => array
         (
