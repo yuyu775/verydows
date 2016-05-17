@@ -44,13 +44,16 @@ class alipay extends abstract_payment
     {
         if($this->check_sign($args))
         {
-            $prompt = array('success', '付款成功', url('order', 'view', array('id' => $args['out_trade_no'])));
+            if($args['trade_status'] == 'TRADE_FINISHED' || $args['trade_status'] == 'TRADE_SUCCESS')
+            {
+                $this->save_trade_res($args['out_trade_no'], $args['trade_no']);
+                return array('success', '付款成功', url('order', 'view', array('id' => $args['out_trade_no'])));
+            }
+            
+            return array('error', '付款失败', url('order', 'view', array('id' => $args['out_trade_no'])));
         }
-        else
-        {
-            $prompt = array('error', '付款失败', null);
-        }
-        return $prompt;
+        
+        return array('error', '验证失败', null);
     }
     
     private function set_params($params)
