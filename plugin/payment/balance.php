@@ -31,8 +31,8 @@ class balance extends abstract_payment
             {
                 if($account_model->decr(array('user_id' => $args['user_id']), 'balance', $order['order_amount']))
                 {
-                    $order_model->update(array('order_id' => $args['order_id']), array('order_status' => 2));
-                    $this->save_trade_log($args['user_id'], $args['order_id'], $order['order_amount']);
+                    $log_id = $this->save_account_log($args['user_id'], $args['order_id'], $order['order_amount']);
+                    $this->save_trade_res($args['order_id'], 'balance_log_'.$log_id);
                     return array('success', '付款成功', url('order', 'view', array('id' => $args['order_id'])));
                 }
                 
@@ -45,7 +45,7 @@ class balance extends abstract_payment
         return array('error', '付款失败，订单不存在', null);
     }
     
-    private function save_trade_log($user_id, $order_id, $order_amount)
+    private function save_account_log($user_id, $order_id, $order_amount)
     {
         $log_model = new user_account_log_model();
         $log_data = array
@@ -55,6 +55,6 @@ class balance extends abstract_payment
             'cause' => "使用账户余额支付订单[{$order_id}]",
             'dateline' => $_SERVER['REQUEST_TIME'],
         );
-        $log_model->create($log_data);
+        return $log_model->create($log_data);
     }
 }
