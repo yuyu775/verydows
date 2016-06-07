@@ -365,7 +365,7 @@ CREATE TABLE `#tablepre#oauth` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `#tablepre#oauth` VALUES ('qq', 'QQ', '{\"app_id\":\"\",\"app_key\":\"\"}', 'QQ互联开放平台为第三方网站提供了丰富的API。第三方网站接入QQ互联开放平台后，即可通过调用平台提供的API实现用户使用QQ帐号登录网站功能，且可以获取到腾讯QQ用户的相关信息。', '0');
-INSERT INTO `verydows_oauth` VALUES ('weibo', '新浪微博', '{\"app_key\":\"\",\"app_secret\":\"\"}', '网站接入是微博针对第三方网站提供的社会化网络接入方案。接入微连接让您的网站支持用微博帐号登录，基于OAuth2.0协议，使用微博 Open API 进行开发， 即可用微博帐号登录你的网站， 让你的网站降低新用户注册成本，快速获取大量用户。', '0');
+INSERT INTO `#tablepre#oauth` VALUES ('weibo', '新浪微博', '{\"app_key\":\"\",\"app_secret\":\"\"}', '网站接入是微博针对第三方网站提供的社会化网络接入方案。接入微连接让您的网站支持用微博帐号登录，基于OAuth2.0协议，使用微博 Open API 进行开发， 即可用微博帐号登录你的网站， 让你的网站降低新用户注册成本，快速获取大量用户。', '0');
 
 DROP TABLE IF EXISTS `#tablepre#order`;
 CREATE TABLE `#tablepre#order` (
@@ -508,7 +508,7 @@ INSERT INTO `#tablepre#setting` VALUES ('home_article_num', '4');
 INSERT INTO `#tablepre#setting` VALUES ('data_cache_lifetime', '7200');
 INSERT INTO `#tablepre#setting` VALUES ('goods_fulltext_query', '0');
 INSERT INTO `#tablepre#setting` VALUES ('debug', '1');
-INSERT INTO `verydows_setting` VALUES ('rewrite_rule', '{\"404.html\":\"main\\/404\",\"search.html\":\"goods\\/search\",\"item\\/<id>.html\":\"goods\\/index\",\"cate\\/<id>.html\":\"category\\/index\",\"<a>\\/img\":\"image\\/<a>\",\"index.html\":\"main\\/index\",\"<c>\\/<a>.html\":\"<c>\\/<a>\"}');
+INSERT INTO `#tablepre#setting` VALUES ('rewrite_rule', '{\"404.html\":\"main\\/404\",\"search.html\":\"goods\\/search\",\"item\\/<id>.html\":\"goods\\/index\",\"cate\\/<id>.html\":\"category\\/index\",\"<a>\\/img\":\"image\\/<a>\",\"index.html\":\"main\\/index\",\"<c>\\/<a>.html\":\"<c>\\/<a>\"}');
 
 DROP TABLE IF EXISTS `#tablepre#shipping_carrier`;
 CREATE TABLE `#tablepre#shipping_carrier` (
