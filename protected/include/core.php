@@ -27,7 +27,7 @@ if(!empty($GLOBALS['cfg']['rewrite_enable']) && strpos($_SERVER['REQUEST_URI'], 
 		if(0!==stripos($rule, 'http://'))
 			$rule = 'http://'.$_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER["SCRIPT_NAME"]), '/\\') .'/'.$rule;
 		$rule = '/'.str_ireplace(array('\\\\', 'http://', '/', '<', '>',  '.'), 
-			array('', '', '\/', '(?<', '>\w+)', '\.'), $rule).'/i';
+                        array('', '', '\/', '(?P<', '>\w+)', '\.'), $rule).'/i';
 		if(preg_match($rule, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], $matchs)){
 			$route = explode("/", $mapper);
 			
@@ -109,7 +109,7 @@ function url($c = 'main', $a = 'index', $param = array()){
 		if(!isset($urlArray[$url])){
 			foreach($GLOBALS['cfg']['rewrite_rule'] as $rule => $mapper){
 				$mapper = '/'.str_ireplace(array('/', '<a>', '<c>', '<m>'), 
-					array('\/', '(?<a>\w+)', '(?<c>\w+)', '(?<m>\w+)'), $mapper).'/i';
+					array('\/', '(?P<a>\w+)', '(?P<c>\w+)', '(?P<m>\w+)'), $mapper).'/i';
 				
 				if(preg_match($mapper, $route, $matchs)){
 					$urlArray[$url] = str_ireplace(array('<a>', '<c>', '<m>'), array($a, $c, $m), $rule);
