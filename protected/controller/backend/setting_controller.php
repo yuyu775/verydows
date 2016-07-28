@@ -196,12 +196,12 @@ class setting_controller extends general_controller
     private static function get_available_themes()
     {
         $path = VIEW_DIR.DS.'frontend';
-        $scanned = array_diff(scandir($path), array('..', '.'));
+        $scanned = array_diff(scandir($path), array('..', '.', 'index.html'));
         $themes = array();
         foreach($scanned as $v)
         {
             $config_file = $path.DS.$v.DS.'config.php';
-            if(is_file($config_file))
+            if(@is_file($config_file))
             {
                 $config = include($config_file);
                 $themes[] = $config + array('dirname' => $v);
