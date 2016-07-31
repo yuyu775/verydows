@@ -42,15 +42,6 @@ function check_envir()
         $envir['php'] = "<font class=\"red\">× PHP版本太低，Verydows系统要求PHP >= 5.2，您当前的版本号为".PHP_VERSION."</font>";
         $envir['disable'] += 1;
     }
-    if(function_exists('mysql_connect'))
-    {
-        $envir['mysql'] = $ok_html;
-    }
-    else
-    {
-        $envir['mysql'] = $no_html;
-        $envir['disable'] += 1;
-    }
     if(extension_loaded('pdo') && extension_loaded('pdo_mysql'))
     {
         $envir['pdo'] = $ok_html;
@@ -212,5 +203,4 @@ function movie_demo_folder()
     rename(realpath(INSTALL_DIR.'/resources/demo/goods/image'), $image_dir);
     rename(realpath(INSTALL_DIR.'/resources/demo/goods/album'), $album_dir);
 }
-
 ?>
